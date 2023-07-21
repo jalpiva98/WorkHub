@@ -1,4 +1,3 @@
-
 /////////////
 //carousel
 /////////////////
@@ -31,7 +30,7 @@ updateGallery(){
     }
 
     setCurrentState(direction){
-        if(direction.className === 'gallery-controls-   '){
+        if(direction.className === 'gallery-controls-previous'){
             
             this.carouselArray.unshift(this.carouselArray.pop());
         }else{
