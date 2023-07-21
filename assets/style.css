@@ -158,7 +158,7 @@ background-size:contain ;
     padding: 10px;
     position: absolute;
     top: 25%;
-    transform: rotate(135deg) translateY(-50);
+    transform: rotate(130deg) translateY(-50%);
     transition: left 0.15s ease-in-out;
     width: 5px;
 }
