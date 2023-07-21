@@ -2,15 +2,12 @@
 <html lang="en">
 <head>
 
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>WorkHUB</title>
-    <link rel="stylesheet" href="assets/reset.css">
-    <link rel="stylesheet" href="assets/style.css">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script defer src="./index.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WorkHub</title>
+  <link rel="stylesheet" href="assets/reset.css">
+  <link rel="stylesheet" href="assets/style.css">
+  <script src="https://cdn.tailwindcss.com"></script>
 
 </head>
 <body class="bg-white-500">
@@ -31,74 +28,69 @@
     <div class="text-center cursor-pointer">
       <img id="searchImgID" src="https://static.vecteezy.com/system/resources/previews/015/337/677/non_2x/transparent-search-icon-free-png.png" width="200px" height="200px" alt="search icon">
     </div>
-
-
-
-</section>
-
-<div class="searchHistory">
-    History
-</div>
-
-<section class="savedJobsClass">
-    Saved
-    <div class="gallery">
-        <div class="gallery-container">
-            <img class="gallery-item gallery-item-1" src="./img/1.jpg" data-index="1">
-            <img class="gallery-item gallery-item-2" src="./img/2.jpg" data-index="2">
-            <img class="gallery-item gallery-item-3" src="./img/3.jpg" data-index="3">
-            <img class="gallery-item gallery-item-4" src="./img/4.jpg" data-index="4">
-            <img class="gallery-item gallery-item-5" src="./img/5.jpg" data-index="5">
-        </div>
-        <div class="gallery-controls"> 
-            
-        </div>
-
-    </div> 
-    <div id="leftSavedID">Left</div>
-    <div id="centerSavedID">Center</div>
-    <div id="rightSavedID">Right</div>
-
-
-</section>
-
-
-
     <div class="text-blue-800 text-xl font-bold">Click the looking glass to begin your search!</div>
   </div>
 <!-- Search history section -->
   <div class="searchHistory bg-orange-500 min-h-[20vh] flex items-center justify-center m-0">
     <div class="place-self-start text-white text-xl font-bold p-12">Previous Searches</div>
   </div>
-<!-- Saved jobs/carusel section -->
-  <section id="SavedJobs" class="savedJobsClass bg-blue-800 min-h-[30vh] flex flex-col items-center m-0 py-12 flex-grow">
-    <p class="text-center inline-block text-white text-xl font-bold p-0 mt-0">Your saved jobs</p>
-    <div class="text-white text-xl grid grid-cols-3 gap-24 flex justify-end items-end"> 
-        <div id="left-slide" class="items-left">Left</div>
-        <div id="central-slide" class="items-center">Center</div>
-        <div id="right-slide"class="items-right">Right</div>
+
+ <section id="SavedJobs" class="savedJobsClass bg-blue-800 min-h-[30vh] flex flex-col items-center m-0 py-12 flex-grow">
+  
+  <section>
+    <div id="modal" class="fixed z-0 top-0 left-0 w-full h-[80vh] bg-opacity-50 bg-gray-800 flex items-center justify-center hidden">
+      <div class="p-6 bg-blue-800 rounded-md">
+        <form class="flex flex-col space-y-4 items-center">
+          <input type="text" class="input-field border-2 border-orange-500 font-bold text-blue-900" placeholder="Position">
+          <input type="text" class="input-field border-2 border-orange-500 font-bold text-blue-900" placeholder="Skills">
+          <input type="text" class="input-field border-2 border-orange-500 font-bold text-blue-900" placeholder="Salary">
+          <input type="text" class="input-field border-2 border-orange-500 font-bold text-blue-900" placeholder="Location">
+          <button type="submit" class="mt-4 bg-blue-500 text-white px-6 py-3 rounded font-bold">Search Jobs</button>
+        </form>
+      </div>
     </div>
    </section>
+
+  <div class="gallery">
+      <div class="gallery-container text-white text-xl grid grid-cols-5 gap-24 flex justify-end items-end">
+          <img class="gallery-item gallery-item-1" src="./img/1.jpg" data-index="1">
+          <img class="gallery-item gallery-item-2" src="./img/2.jpg" data-index="2">
+          <img class="gallery-item gallery-item-3" src="./img/3.jpg" data-index="3">
+          <img class="gallery-item gallery-item-4" src="./img/4.jpg" data-index="4">
+          <img class="gallery-item gallery-item-5" src="./img/5.jpg" data-index="5">
+      </div>
+      <div class="gallery-controls"> 
+          
+      </div>
+
+  </div> 
+
+</div> 
+
+</section>  
+<section id="results" class="hidden  bg-blue-800 min-h-[30vh] flex flex-col items-center m-0 py-12 flex-grow">
+  
+  <section>
+   </section>
+  <div id="listings" class="">
+    <div class="text-white text-xl grid grid-cols-5 gap-24 flex justify-end items-end">
+    TEST
+    </div>
+    
+    <div class="gallery-controls"> 
+    </div>
+
+</div> 
+
+</section>  
 <!-- Contact Info section -->
   <section id="contact-us" class="place-self-start bg-orange-500 text-xl flex items-center justify-center m-0 text-white font-bold p-10">
     Contact Info
   </section>
 
   <!-- Modal -->
- <section>
-  <div id="modal" class="fixed top-0 left-0 w-full h-full bg-opacity-50 bg-gray-800 flex items-center justify-center hidden">
-    <div class="p-6 bg-blue-800 rounded-md">
-      <form class="flex flex-col space-y-4 items-center">
-        <input type="text" class="input-field border-2 border-orange-500 font-bold text-blue-900" placeholder="Position">
-        <input type="text" class="input-field border-2 border-orange-500 font-bold text-blue-900" placeholder="Skills">
-        <input type="text" class="input-field border-2 border-orange-500 font-bold text-blue-900" placeholder="Salary">
-        <input type="text" class="input-field border-2 border-orange-500 font-bold text-blue-900" placeholder="Location">
-        <button type="submit" class="mt-4 bg-blue-500 text-white px-6 py-3 rounded font-bold">Search Jobs</button>
-      </form>
-    </div>
-  </div>
- </section>
 
-
+ 
+ <script defer src="./index.js"></script>
 </body>
 </html>

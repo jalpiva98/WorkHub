@@ -39,10 +39,7 @@
 
 
   .savedJobsClass {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    background: linear-gradient(to bottom, rgb(236, 213, 232) 0%, rgb(50, 112, 118) 100%);
+
   }
 
 .gallery {
