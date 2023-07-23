@@ -52,11 +52,21 @@ async function fetchJobSearch () {
 
             link.append(companyElement, $('<br>'), jobTitleElement);
 
+            const checkbox = $('<input class="ml-auto" type="checkbox">');
+
+            checkbox.attr('id', 'myCheckbox');
+            checkbox.attr('name', 'myCheckbox');
+            checkbox.prop('checked', false);
+
             const listItem = $('<li class="mb-5">');
             listItem.append(link);
 
+
             const resultsList = $('#resultsID');
             resultsList.append(listItem);
+
+            listItem.append(checkbox);
+
         }
 
 console.log(jobsArray);
