@@ -1,3 +1,50 @@
+//Search Job Fetch
+///////////////////
+
+let position = 'communication';
+let skills = 'chicago';
+let city = 'director';
+const jobsArray = {
+    companyArray: [],
+    jobArray: [],
+    URLarray: []
+};
+
+
+const url = 'https://jobsearch4.p.rapidapi.com/api/v2/Jobs/Search?SearchQuery=' + position +'+' + city+ '+' + skills +'+' +  '&PageSize=50&PageNumber=1';
+const options = {
+    method: 'GET',
+    headers: {
+        'X-RapidAPI-Key': '9952432343msh4d888bb5e64d387p154272jsnca97fea3ca77',
+        'X-RapidAPI-Host': 'jobsearch4.p.rapidapi.com'
+    }
+};
+
+async function fetchJobSearch () {
+
+    try {
+        const response = await fetch(url, options);
+        const result = await response.json();
+        const i = 3;
+
+        let company = result.data[i].company;
+        let jobTitle = result.data[i].title;
+        let jobURL = result.data[i].url;
+
+        jobsArray.companyArray.push(company);
+        jobsArray.jobArray.push(jobTitle);
+        jobsArray.URLarray.push(jobURL);
+
+console.log(jobsArray);
+
+    } catch (error) {
+        console.error(error);
+    }
+
+}
+
+fetchJobSearch();
+
 /////////////
 //carousel
 /////////////////
@@ -12,7 +59,6 @@ class Carousel {
         this.carouselControls =controls;
         this.carouselArray = [...items];
     }
-
 
 updateGallery(){
     this.carouselArray.forEach(el => {
