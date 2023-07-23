@@ -1,3 +1,74 @@
+//Search Job Fetch
+///////////////////
+
+//Get Inputs ID
+
+let position = 'manager';
+let skills = 'javascript';
+let city = 'chicago';
+const jobsArray = {
+    companyArray: [],
+    jobArray: [],
+    URLarray: []
+};
+
+const url = 'https://jobsearch4.p.rapidapi.com/api/v2/Jobs/Search?SearchQuery=' + position +'+' + city+ '+' + skills +'+' +  '&PageSize=100&PageNumber=1';
+const options = {
+    method: 'GET',
+    headers: {
+        'X-RapidAPI-Key': '9952432343msh4d888bb5e64d387p154272jsnca97fea3ca77',
+        'X-RapidAPI-Host': 'jobsearch4.p.rapidapi.com'
+    }
+};
+
+async function fetchJobSearch () {
+
+    try {
+        const response = await fetch(url, options);
+        const result = await response.json();
+
+        for (let i = 0; i < 150; i++) {
+            let company = result.data[i].company;
+            let jobTitle = result.data[i].title;
+            let jobURL = result.data[i].url;
+
+            JSON.stringify(company);
+            JSON.stringify(jobTitle);
+            JSON.stringify(jobURL);
+
+            jobsArray.companyArray.push(company);
+            jobsArray.jobArray.push(jobTitle);
+            jobsArray.URLarray.push(jobURL);
+
+            // Append Results on Div
+
+            // Create an anchor element
+            const link = $('<a>');
+            link.prop('href', jobURL);
+            link.prop('target', '_blank');
+
+            const companyElement = $('<span class="text-white">').text(`${company}: `);
+            const jobTitleElement = $('<span class="font-extrabold text-xl">').text(jobTitle);
+
+            link.append(companyElement, $('<br>'), jobTitleElement);
+
+            const listItem = $('<li class="mb-5">');
+            listItem.append(link);
+
+            const resultsList = $('#resultsID');
+            resultsList.append(listItem);
+        }
+
+console.log(jobsArray);
+
+    } catch (error) {
+        console.error(error);
+    }
+
+}
+
+fetchJobSearch();
+
 /////////////
 //carousel
 /////////////////
@@ -12,7 +83,6 @@ class Carousel {
         this.carouselControls =controls;
         this.carouselArray = [...items];
     }
-
 
 updateGallery(){
     this.carouselArray.forEach(el => {
