@@ -32,7 +32,7 @@ fetchData();  */
 
 //SearchJob No Limit - Any Search
 
-
+/*
 
 let position = 'communication';
 let skills = 'chicago';
@@ -61,5 +61,5 @@ async function fetchJobSearch () {
 
 fetchJobSearch();
 
-
+*/
 

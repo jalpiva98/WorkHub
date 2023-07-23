@@ -10,84 +10,82 @@
   <script src="https://cdn.tailwindcss.com"></script>
 
        </head>
+
+
+
 <body class="bg-white-500">
 
-  <!-- Nav Bar -->
-  <div id="navbar" class="headerClass left-0 w-full h-16 bg-blue-800 px-8 flex items-center justify-between m-0">
-    <div class="text-orange-500 text-xl font-bold">WorkHub</div>
-    <nav class="space-x-4">
-      <a href="#contact-us" class="text-white">Contact us</a>
-      <a href="#SavedJobs" class="text-white">Favorite</a>
-      <a href="#" class="text-white">Log in</a>
-      <a href="#" class="text-white">Sign in</a>
-    </nav>
-  </div>
 
-  <!-- Looking-glass section -->
-  <div id="looking-glass" class="bg-white-500 min-h-[50vh] flex flex-col items-center justify-center m-0">
-    <div class="text-center cursor-pointer">
-      <img id="searchImgID" src="https://static.vecteezy.com/system/resources/previews/015/337/677/non_2x/transparent-search-icon-free-png.png" width="200px" height="200px" alt="search icon">
-    </div>
-    <div class="text-blue-800 text-xl font-bold">Click the looking glass to begin your search!</div>
-  </div>
-<!-- Search history section -->
-  <div class="searchHistory bg-orange-500 min-h-[20vh] flex items-center justify-center m-0">
-    <div class="place-self-start text-white text-xl font-bold p-12">Previous Searches</div>
-  </div>
-
- <section id="SavedJobs" class="savedJobsClass bg-blue-800 min-h-[30vh] flex flex-col items-center m-0 py-12 flex-grow">
-         <!-- INPUTS -->
-      <div class="p-1 bg-blue-800 rounded-md flex  items-center">
-          <input type="text" class="m-6 input-field border-2 border-orange-500 font-bold text-blue-900" placeholder="Position">
-          <input type="text" class="m-6 input-field border-2 border-orange-500 font-bold text-blue-900" placeholder="Skills">
-          <input type="text" class="m-6 input-field border-2 border-orange-500 font-bold text-blue-900" placeholder="Salary">
-          <input type="text" class="m-6 input-field border-2 border-orange-500 font-bold text-blue-900" placeholder="Location">
-          <button type="submit" class="m-6 mt-4 bg-blue-500 text-white px-6 py-3 rounded font-bold">Search Jobs</button>
+      <!-- Nav Bar -->
+      <div id="navbar" class="headerClass left-0 w-full h-16 bg-blue-800 px-8 flex items-center justify-between m-0">
+        <div class="text-orange-500 text-xl font-bold">WorkHub</div>
+        <nav class="space-x-4">
+          <a href="#contact-us" class="text-white">Contact us</a>
+          <a href="#SavedJobs" class="text-white">Favorite</a>
+          <a href="#" class="text-white">Log in</a>
+          <a href="#" class="text-white">Sign in</a>
+        </nav>
       </div>
+
+      <!-- Looking-glass section -->
+      <div id="looking-glass" class="bg-white-500 min-h-[50vh] flex flex-col items-center justify-center m-0">
+        <div class="text-center cursor-pointer">
+          <img id="searchImgID" src="https://static.vecteezy.com/system/resources/previews/015/337/677/non_2x/transparent-search-icon-free-png.png" width="200px" height="200px" alt="search icon">
+        </div>
+        <div class="text-blue-800 text-xl font-bold">Click the looking glass to begin your search!</div>
+      </div>
+    <!-- Search history section -->
+      <div class="searchHistory bg-orange-500 min-h-[20vh] flex items-center justify-center m-0">
+        <div class="place-self-start text-white text-xl font-bold p-12">Previous Searches</div>
+      </div>
+
+     <section class="bg-blue-800 min-h-[30vh] flex flex-col items-center m-0 py-12 flex-grow">
+             <!-- INPUTS -->
+          <div class="p-1 bg-blue-800 rounded-md flex  items-center">
+              <input id="positionInputID" type="text" class="m-6 input-field border-2 border-orange-500 font-bold text-blue-900" placeholder="Position">
+              <input id="skillInputID" type="text" class="m-6 input-field border-2 border-orange-500 font-bold text-blue-900" placeholder="Skills">
+              <input id="locationInputID" type="text" class="m-6 input-field border-2 border-orange-500 font-bold text-blue-900" placeholder="Location">
+              <button type="submit" class="m-6 mt-4 bg-blue-500 text-white px-6 py-3 rounded font-bold">Search Jobs</button>
+          </div>
+
+
+
+         <!-- SAVED RESULTS -->
+
+      <div class="gallery">
+          <div class="gallery-container text-white text-xl grid grid-cols-5 gap-24 flex justify-end items-end">
+              <img class="gallery-item gallery-item-1" src="./img/1.jpg" data-index="1">
+              <img class="gallery-item gallery-item-2" src="./img/2.jpg" data-index="2">
+              <img class="gallery-item gallery-item-3" src="./img/3.jpg" data-index="3">
+              <img class="gallery-item gallery-item-4" src="./img/4.jpg" data-index="4">
+              <img class="gallery-item gallery-item-5" src="./img/5.jpg" data-index="5">
+          </div>
+                <div class="gallery-controls">
+          </div>
+      </div>
+
+
+    </section>
+
+    <section id="results" class=" bg-blue-800 min-h-[30vh] flex flex-col items-center m-0 py-12 flex-grow">
+
         <!-- RESULTS -->
-     <div class="flex flex-col space-y-4 items-center">
-RESULTS
-     </div>
 
-     <!-- SAVED RESULTS -->
+        <div class="h-300 m-5">
+            <ul id="resultsID" class="h-250 overflow-y-scroll">
 
-  <div class="gallery">
-      <div class="gallery-container text-white text-xl grid grid-cols-5 gap-24 flex justify-end items-end">
-          <img class="gallery-item gallery-item-1" src="./img/1.jpg" data-index="1">
-          <img class="gallery-item gallery-item-2" src="./img/2.jpg" data-index="2">
-          <img class="gallery-item gallery-item-3" src="./img/3.jpg" data-index="3">
-          <img class="gallery-item gallery-item-4" src="./img/4.jpg" data-index="4">
-          <img class="gallery-item gallery-item-5" src="./img/5.jpg" data-index="5">
-      </div>
-            <div class="gallery-controls">
-      </div>
-  </div> 
+            </ul>
+        </div>
 
 
-</section>  
-<section id="results" class="hidden  bg-blue-800 min-h-[30vh] flex flex-col items-center m-0 py-12 flex-grow">
-  
-  <section>
-   </section>
-  <div id="listings" class="">
-    <div class="text-white text-xl grid grid-cols-5 gap-24 flex justify-end items-end">
-    TEST
-    </div>
-    
-    <div class="gallery-controls"> 
-    </div>
+    </section>
+    <!-- Contact Info section -->
+      <footer id="contact-us" class="place-self-start bg-orange-500 text-xl flex items-center justify-center m-0 text-white font-bold p-10">
+        Contact Info
+      </footer>
 
-</div> 
 
-</section>  
-<!-- Contact Info section -->
-  <section id="contact-us" class="place-self-start bg-orange-500 text-xl flex items-center justify-center m-0 text-white font-bold p-10">
-    Contact Info
-  </section>
-
-  <!-- Modal -->
-
- 
- <script defer src="./index.js"></script>
+      <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+      <script defer src="./index.js"></script>
 </body>
 </html>

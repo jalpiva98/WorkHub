@@ -1,17 +1,18 @@
 //Search Job Fetch
 ///////////////////
 
-let position = 'communication';
-let skills = 'chicago';
-let city = 'director';
+//Get Inputs ID
+
+let position = 'manager';
+let skills = 'javascript';
+let city = 'chicago';
 const jobsArray = {
     companyArray: [],
     jobArray: [],
     URLarray: []
 };
 
-
-const url = 'https://jobsearch4.p.rapidapi.com/api/v2/Jobs/Search?SearchQuery=' + position +'+' + city+ '+' + skills +'+' +  '&PageSize=50&PageNumber=1';
+const url = 'https://jobsearch4.p.rapidapi.com/api/v2/Jobs/Search?SearchQuery=' + position +'+' + city+ '+' + skills +'+' +  '&PageSize=100&PageNumber=1';
 const options = {
     method: 'GET',
     headers: {
@@ -25,15 +26,38 @@ async function fetchJobSearch () {
     try {
         const response = await fetch(url, options);
         const result = await response.json();
-        const i = 3;
 
-        let company = result.data[i].company;
-        let jobTitle = result.data[i].title;
-        let jobURL = result.data[i].url;
+        for (let i = 0; i < 150; i++) {
+            let company = result.data[i].company;
+            let jobTitle = result.data[i].title;
+            let jobURL = result.data[i].url;
 
-        jobsArray.companyArray.push(company);
-        jobsArray.jobArray.push(jobTitle);
-        jobsArray.URLarray.push(jobURL);
+            JSON.stringify(company);
+            JSON.stringify(jobTitle);
+            JSON.stringify(jobURL);
+
+            jobsArray.companyArray.push(company);
+            jobsArray.jobArray.push(jobTitle);
+            jobsArray.URLarray.push(jobURL);
+
+            // Append Results on Div
+
+            // Create an anchor element
+            const link = $('<a>');
+            link.prop('href', jobURL);
+            link.prop('target', '_blank');
+
+            const companyElement = $('<span class="text-white">').text(`${company}: `);
+            const jobTitleElement = $('<span class="font-extrabold text-xl">').text(jobTitle);
+
+            link.append(companyElement, $('<br>'), jobTitleElement);
+
+            const listItem = $('<li class="mb-5">');
+            listItem.append(link);
+
+            const resultsList = $('#resultsID');
+            resultsList.append(listItem);
+        }
 
 console.log(jobsArray);
 
