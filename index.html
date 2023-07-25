@@ -37,17 +37,29 @@
          <button type="submit" class="m-6 mt-4 bg-blue-500 text-white px-6 py-3 rounded font-bold">Search Jobs</button>
      </div>
 <!-- Looking-glass section -->
-      <div id="looking-glass" class="bg-white-500 min-h-[50vh] flex flex-col items-center justify-center m-0">
+      <div id="looking-glass" class="bg-white-500 min-h-[50vh] flex flex-col items-center justify-center m-0 hidden">
         <div class="text-center cursor-pointer">
           <img id="searchImgID" src="https://static.vecteezy.com/system/resources/previews/015/337/677/non_2x/transparent-search-icon-free-png.png" width="200px" height="200px" alt="search icon">
         </div>
         <div class="text-blue-800 text-xl font-bold">Click the looking glass to begin your search!</div>
       </div>
 
+      <!-- RESULTS -->
+        <section id="results" class="bg-white-500 flex flex-col items-center m-0 py-12 flex-grow ">
+
+          <div class="max-h-300px items-center m-5 overflow-y-auto custom-scrollbar">
+            <ul id="resultsID" class="h-full bg-blue-800 rounded-3xl flex flex-col items-center p-4">
+              <!-- List items will be dynamically added here -->
+            </ul>
+          </div>
+        </section>
+
     </section>
+
+
     <!-- Search history section -->
 <!-- Search history section -->
-  <div class="searchHistory bg-orange-500 min-h-[20vh] flex flex-col items-center justify-center m-0">
+  <div class="searchHistory bg-orange-500 min-h-[20vh] flex flex-col items-center justify-center m-0 shadow-md">
   <div class="text-white text-xl font-bold p-12">Previous Searches</div>
   <div class="box flex justify-around w-full" >
     <!-- Replace the placeholder content with your actual data from local storage -->
@@ -59,24 +71,11 @@
 </div>
 
 
-      <section id="results" class="bg-blue-800 flex flex-col items-center m-0 py-12 flex-grow">
-
-          <!-- RESULTS -->
-          <div class="max-h-300px m-5 overflow-y-auto">
-              <ul id="resultsID" class="h-full">
-                  <!-- List items will be dynamically added here -->
-              </ul>
-          </div>
-
-
-      </section>
-
-
      <section class="bg-blue-800 min-h-[20vh] flex flex-col items-center m-0 py-12 ">
 
          <!-- SAVED RESULTS -->
 
-      <div class="gallery max-h-[30vh]">
+      <div class="gallery max-h-[50vh]">
           <div class="gallery-container text-white text-xl grid grid-cols-5 gap-24 flex justify-end items-end">
               <img class="gallery-item gallery-item-1" src="./img/1.jpg" data-index="1">
               <img class="gallery-item gallery-item-2" src="./img/2.jpg" data-index="2">
@@ -122,7 +121,10 @@
         </div>
       </div>
     </section>
-
+    
+    <footer id="contact-us" class="place-self-start bg-orange-500 text-xl flex items-center justify-center m-0 text-white font-bold p-10">
+      Contact Info
+    </footer>
 
       <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
       <script defer src="./index.js"></script>
