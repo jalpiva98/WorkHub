@@ -3,78 +3,85 @@
 
 //Get Inputs ID
 
-let position = 'manager';
-let skills = 'javascript';
-let city = 'chicago';
+let position = "manager";
+let skills = "javascript";
+let city = "chicago";
 const jobsArray = {
-    companyArray: [],
-    jobArray: [],
-    URLarray: []
+  companyArray: [],
+  jobArray: [],
+  URLarray: [],
 };
 
-const url = 'https://jobsearch4.p.rapidapi.com/api/v2/Jobs/Search?SearchQuery=' + position +'+' + city+ '+' + skills +'+' +  '&PageSize=100&PageNumber=1';
+const url =
+  "https://jobsearch4.p.rapidapi.com/api/v2/Jobs/Search?SearchQuery=" +
+  position +
+  "+" +
+  city +
+  "+" +
+  skills +
+  "+" +
+  "&PageSize=100&PageNumber=1";
 const options = {
-    method: 'GET',
-    headers: {
-        'X-RapidAPI-Key': '9952432343msh4d888bb5e64d387p154272jsnca97fea3ca77',
-        'X-RapidAPI-Host': 'jobsearch4.p.rapidapi.com'
-    }
+  method: "GET",
+  headers: {
+    "X-RapidAPI-Key": "9952432343msh4d888bb5e64d387p154272jsnca97fea3ca77",
+    "X-RapidAPI-Host": "jobsearch4.p.rapidapi.com",
+  },
 };
 
-async function fetchJobSearch () {
+async function fetchJobSearch() {
+  try {
+    const response = await fetch(url, options);
+    const result = await response.json();
 
-    try {
-        const response = await fetch(url, options);
-        const result = await response.json();
+    for (let i = 0; i < 150; i++) {
+      let company = result.data[i].company;
+      let jobTitle = result.data[i].title;
+      let jobURL = result.data[i].url;
 
-        for (let i = 0; i < 150; i++) {
-            let company = result.data[i].company;
-            let jobTitle = result.data[i].title;
-            let jobURL = result.data[i].url;
+      JSON.stringify(company);
+      JSON.stringify(jobTitle);
+      JSON.stringify(jobURL);
 
-            JSON.stringify(company);
-            JSON.stringify(jobTitle);
-            JSON.stringify(jobURL);
+      jobsArray.companyArray.push(company);
+      jobsArray.jobArray.push(jobTitle);
+      jobsArray.URLarray.push(jobURL);
 
-            jobsArray.companyArray.push(company);
-            jobsArray.jobArray.push(jobTitle);
-            jobsArray.URLarray.push(jobURL);
+      // Append Results on Div
 
-            // Append Results on Div
+      // Create an anchor element
+      const link = $("<a>");
+      link.prop("href", jobURL);
+      link.prop("target", "_blank");
 
-            // Create an anchor element
-            const link = $('<a>');
-            link.prop('href', jobURL);
-            link.prop('target', '_blank');
+      const companyElement = $('<span class="text-white">').text(
+        `${company}: `
+      );
+      const jobTitleElement = $('<span class="font-extrabold text-xl">').text(
+        jobTitle
+      );
 
-            const companyElement = $('<span class="text-white">').text(`${company}: `);
-            const jobTitleElement = $('<span class="font-extrabold text-xl">').text(jobTitle);
+      link.append(companyElement, $("<br>"), jobTitleElement);
 
-            link.append(companyElement, $('<br>'), jobTitleElement);
+      const checkbox = $('<input class="ml-auto" type="checkbox">');
 
-            const checkbox = $('<input class="ml-auto" type="checkbox">');
+      checkbox.attr("id", "myCheckbox");
+      checkbox.attr("name", "myCheckbox");
+      checkbox.prop("checked", false);
 
-            checkbox.attr('id', 'myCheckbox');
-            checkbox.attr('name', 'myCheckbox');
-            checkbox.prop('checked', false);
+      const listItem = $('<li class="mb-5">');
+      listItem.append(link);
 
-            const listItem = $('<li class="mb-5">');
-            listItem.append(link);
+      const resultsList = $("#resultsID");
+      resultsList.append(listItem);
 
-
-            const resultsList = $('#resultsID');
-            resultsList.append(listItem);
-
-            listItem.append(checkbox);
-
-        }
-
-console.log(jobsArray);
-
-    } catch (error) {
-        console.error(error);
+      listItem.append(checkbox);
     }
 
+    console.log(jobsArray);
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 fetchJobSearch();
@@ -82,153 +89,165 @@ fetchJobSearch();
 /////////////
 //carousel
 /////////////////
-const galleryContainer=document.querySelector('.gallery-container');
-const galleryControlsContainer = document.querySelector('.gallery-controls');
-const galleryControls = ['previous', 'next'];
-const galleryItems = document.querySelectorAll('.gallery-item');
+const galleryContainer = document.querySelector(".gallery-container");
+const galleryControlsContainer = document.querySelector(".gallery-controls");
+const galleryControls = ["previous", "next"];
+const galleryItems = document.querySelectorAll(".gallery-item");
 
 class Carousel {
-    constructor(container, items, controls){
-        this.carouselContainer = container;
-        this.carouselControls =controls;
-        this.carouselArray = [...items];
+  constructor(container, items, controls) {
+    this.carouselContainer = container;
+    this.carouselControls = controls;
+    this.carouselArray = [...items];
+  }
+
+  updateGallery() {
+    this.carouselArray.forEach((el) => {
+      el.classList.remove("gallery-item-1");
+      el.classList.remove("gallery-item-2");
+      el.classList.remove("gallery-item-3");
+      el.classList.remove("gallery-item-4");
+      el.classList.remove("gallery-item-5");
+    });
+
+    this.carouselArray.slice(0, 5).forEach((el, i) => {
+      el.classList.add(`gallery-item-${i + 1}`);
+    });
+  }
+
+  setCurrentState(direction) {
+    if (direction.className === "gallery-controls-previous") {
+      this.carouselArray.unshift(this.carouselArray.pop());
+    } else {
+      this.carouselArray.push(this.carouselArray.shift());
     }
+    this.updateGallery();
+    attachModalEvent();
+  }
 
-updateGallery(){
-    this.carouselArray.forEach(el => {
-        el.classList.remove('gallery-item-1');
-        el.classList.remove('gallery-item-2');
-        el.classList.remove('gallery-item-3');
-        el.classList.remove('gallery-item-4');
-        el.classList.remove('gallery-item-5');
+  setControls() {
+    this.carouselControls.forEach((control) => {
+      galleryControlsContainer.appendChild(
+        document.createElement("button")
+      ).className = `gallery-controls-${control}`;
+      document.querySelector(`.gallery-controls-${control}`).innerText =
+        control;
+    });
+  }
+  useControls() {
+    const triggers = [...galleryControlsContainer.childNodes];
+    triggers.forEach((control) => {
+      control.addEventListener("click", (e) => {
+        e.preventDefault();
+        this.setCurrentState(control);
+      });
+    });
 
-        });
-    
-        this.carouselArray.slice(0 ,5).forEach((el , i) =>{
-            el.classList.add(`gallery-item-${i+1}`);
-        })
-    }
+    // Find the central carousel item (third item).
+    const centralItem = this.carouselArray[2];
+    // Add an event listener to the central item to show the modal on click.
+    centralItem.classList.add("cursor-pointer");
+    centralItem.addEventListener("click", showModal);
+    attachModalEvent();
+  }
+}
 
-    setCurrentState(direction){
-        if(direction.className === 'gallery-controls-previous'){
-            
-            this.carouselArray.unshift(this.carouselArray.pop());
-        }else{
-            this.carouselArray.push(this.carouselArray.shift());
-        }
-        this.updateGallery();
-        attachModalEvent();
-    }
+function attachModalEvent() {
+  const centralItem = document.querySelector(".gallery-item-3");
+  centralItem.classList.add("cursor-pointer");
+  centralItem.addEventListener("click", showModal);
+}
 
-    setControls(){
-        this.carouselControls.forEach(control => {
-            galleryControlsContainer.appendChild(document.createElement('button')).className = `gallery-controls-${control}`;
-            document.querySelector(`.gallery-controls-${control}`).innerText = control;
-        });
-    }
-    useControls() {
-        const triggers = [...galleryControlsContainer.childNodes];
-        triggers.forEach(control => {
-          control.addEventListener('click', e => {
-            e.preventDefault();
-            this.setCurrentState(control);
-          });
-        });
-      
-        // Find the central carousel item (third item).
-        const centralItem = this.carouselArray[2];
-        // Add an event listener to the central item to show the modal on click.
-        centralItem.classList.add("cursor-pointer");
-        centralItem.addEventListener('click', showModal);
-        attachModalEvent();
-      }
-    }
+function showModal() {
+  const modal = document.getElementById("SavedJobModal");
+  modal.classList.remove("hidden");
+  modal.setAttribute("aria-hidden", "false");
+}
 
-    function attachModalEvent() {
-        const centralItem = document.querySelector('.gallery-item-3');
-        centralItem.classList.add("cursor-pointer");
-        centralItem.addEventListener('click', showModal);
-      }
-
-
-
-    function showModal() {
-        const modal = document.getElementById('SavedJobModal');
-        modal.classList.remove('hidden');
-        modal.setAttribute('aria-hidden', 'false');
-      }
-  
 // Hide looking glass and show input form
 
-    document.getElementById('looking-glass').addEventListener('click', toggleInputs);
+document
+  .getElementById("looking-glass")
+  .addEventListener("click", toggleInputs);
 
 function toggleInputs() {
-    const searchInputs = document.getElementById("searchInputs");
-    const searchImgDiv = document.getElementById("looking-glass");
-  
-    searchInputs.classList.remove('hidden');
-    searchImgDiv.classList.add('hidden');
-  }
+  const searchInputs = document.getElementById("searchInputs");
+  const searchImgDiv = document.getElementById("looking-glass");
+
+  searchInputs.classList.remove("hidden");
+  searchImgDiv.classList.add("hidden");
+}
 
 // Function to hide the modal
 function hideModal() {
-    const modal = document.getElementById('SavedJobModal');
-    if (modal) {
-      modal.classList.add('hidden');
-    }
+  const modal = document.getElementById("SavedJobModal");
+  if (modal) {
+    modal.classList.add("hidden");
   }
-  
-  // Add click event listener to the X button in the modal header
-  document.addEventListener('DOMContentLoaded', function () {
-    const closeButton = document.querySelector('[data-modal-hide="defaultModal"]');
-    if (closeButton) {
-      closeButton.addEventListener('click', hideModal);
-    }
-  });
+}
 
-const exampleCarousel = new Carousel(galleryContainer, galleryItems, galleryControls);
+// Add click event listener to the X button in the modal header
+document.addEventListener("DOMContentLoaded", function () {
+  const closeButton = document.querySelector(
+    '[data-modal-hide="defaultModal"]'
+  );
+  if (closeButton) {
+    closeButton.addEventListener("click", hideModal);
+  }
+});
+
+const exampleCarousel = new Carousel(
+  galleryContainer,
+  galleryItems,
+  galleryControls
+);
 
 exampleCarousel.setControls();
 exampleCarousel.useControls();
 
+document.addEventListener("DOMContentLoaded", function () {
+  // Get references to the input fields and the search button
+  const positionInput = document.getElementById("positionInputID");
+  const skillInput = document.getElementById("skillInputID");
+  const locationInput = document.getElementById("locationInputID");
+  const searchButton = document.querySelector(".bg-blue-500");
 
-// Function to update the boxes with the previous searches
-function updateBoxes() {
-  const boxElements = document.querySelectorAll('.box div');
-  for (let i = 0; i < previousSearches.length; i++) {
-    boxElements[i].textContent = previousSearches[i];
-  }
-}
+  // Get references to the boxes
+  const boxes = document.querySelectorAll(".box > div");
 
-// Load previous searches from localStorage if available
-let previousSearches = JSON.parse(localStorage.getItem('previousSearches')) || [];
+  // Function to update the boxes with the search inputs
+  function updateBoxes() {
+    const position = positionInput.value.trim();
+    const skill = skillInput.value.trim();
+    const location = locationInput.value.trim();
 
-// Function to save previous searches to localStorage
-function savePreviousSearches() {
-  localStorage.setItem('previousSearches', JSON.stringify(previousSearches));
-}
+    if (position || skill || location) {
+      const searchString = `Position: ${position}, Skills: ${skill}, Location: ${location}`;
 
-// Add event listener to the search input
-document.getElementById('positionInputID').addEventListener('change', function () {
-  const searchValue = this.value.trim();
+      // Shift the content of the boxes to the right (box4 -> box3, box3 -> box2, box2 -> box1)
+      for (let i = boxes.length - 1; i > 0; i--) {
+        boxes[i].innerHTML = boxes[i - 1].innerHTML;
+      }
 
-  // Only add the search value if it's not empty
-  if (searchValue) {
-    // Add the search value to the array
-    previousSearches.push(searchValue);
+      // Set the content of box1 with the new search string as a list
+      boxes[0].innerHTML = `<ul><li>${searchString}</li></ul>`;
 
-    // If the array size exceeds 4, remove the oldest search value
-    if (previousSearches.length > 4) {
-      previousSearches.shift();
+      // Save the search string in local storage
+      localStorage.setItem("box1Content", boxes[0].innerHTML);
+      localStorage.setItem("box2Content", boxes[1].innerHTML);
+      localStorage.setItem("box3Content", boxes[2].innerHTML);
+      localStorage.setItem("box4Content", boxes[3].innerHTML);
     }
+  }
 
-    // Update the boxes with the new search values
-    updateBoxes();
+  // Add click event listener to the search button
+  searchButton.addEventListener("click", updateBoxes);
 
-    // Save the updated previous searches to localStorage
-    savePreviousSearches();
+  // Retrieve and set the content of the boxes from local storage on page load
+  for (let i = 0; i < boxes.length; i++) {
+    const boxContent = localStorage.getItem(`box${i + 1}Content`);
+    if (boxContent) {
+      boxes[i].innerHTML = boxContent;
+    }
   }
 });
-
-// Call updateBoxes() initially to populate the boxes on page load
-updateBoxes();
