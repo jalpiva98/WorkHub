@@ -107,6 +107,7 @@ updateGallery(){
             this.carouselArray.push(this.carouselArray.shift());
         }
         this.updateGallery();
+        attachModalEvent();
     }
 
     setControls(){
@@ -115,17 +116,65 @@ updateGallery(){
             document.querySelector(`.gallery-controls-${control}`).innerText = control;
         });
     }
-    useControls(){
+    useControls() {
         const triggers = [...galleryControlsContainer.childNodes];
         triggers.forEach(control => {
-            control.addEventListener('click', e =>{
-                e.preventDefault();
-                this.setCurrentState(control);
-            })
-        })
+          control.addEventListener('click', e => {
+            e.preventDefault();
+            this.setCurrentState(control);
+          });
+        });
+      
+        // Find the central carousel item (third item).
+        const centralItem = this.carouselArray[2];
+        // Add an event listener to the central item to show the modal on click.
+        centralItem.classList.add("cursor-pointer");
+        centralItem.addEventListener('click', showModal);
+        attachModalEvent();
+      }
     }
 
-}
+    function attachModalEvent() {
+        const centralItem = document.querySelector('.gallery-item-3');
+        centralItem.classList.add("cursor-pointer");
+        centralItem.addEventListener('click', showModal);
+      }
+
+
+
+    function showModal() {
+        const modal = document.getElementById('SavedJobModal');
+        modal.classList.remove('hidden');
+        modal.setAttribute('aria-hidden', 'false');
+      }
+  
+// Hide looking glass and show input form
+
+    document.getElementById('looking-glass').addEventListener('click', toggleInputs);
+
+function toggleInputs() {
+    const searchInputs = document.getElementById("searchInputs");
+    const searchImgDiv = document.getElementById("looking-glass");
+  
+    searchInputs.classList.remove('hidden');
+    searchImgDiv.classList.add('hidden');
+  }
+
+// Function to hide the modal
+function hideModal() {
+    const modal = document.getElementById('SavedJobModal');
+    if (modal) {
+      modal.classList.add('hidden');
+    }
+  }
+  
+  // Add click event listener to the X button in the modal header
+  document.addEventListener('DOMContentLoaded', function () {
+    const closeButton = document.querySelector('[data-modal-hide="defaultModal"]');
+    if (closeButton) {
+      closeButton.addEventListener('click', hideModal);
+    }
+  });
 
 const exampleCarousel = new Carousel(galleryContainer, galleryItems, galleryControls);
 
