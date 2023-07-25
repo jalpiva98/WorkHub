@@ -1,3 +1,84 @@
+//Search Job Fetch
+///////////////////
+
+//Get Inputs ID
+
+let position = 'manager';
+let skills = 'javascript';
+let city = 'chicago';
+const jobsArray = {
+    companyArray: [],
+    jobArray: [],
+    URLarray: []
+};
+
+const url = 'https://jobsearch4.p.rapidapi.com/api/v2/Jobs/Search?SearchQuery=' + position +'+' + city+ '+' + skills +'+' +  '&PageSize=100&PageNumber=1';
+const options = {
+    method: 'GET',
+    headers: {
+        'X-RapidAPI-Key': '9952432343msh4d888bb5e64d387p154272jsnca97fea3ca77',
+        'X-RapidAPI-Host': 'jobsearch4.p.rapidapi.com'
+    }
+};
+
+async function fetchJobSearch () {
+
+    try {
+        const response = await fetch(url, options);
+        const result = await response.json();
+
+        for (let i = 0; i < 150; i++) {
+            let company = result.data[i].company;
+            let jobTitle = result.data[i].title;
+            let jobURL = result.data[i].url;
+
+            JSON.stringify(company);
+            JSON.stringify(jobTitle);
+            JSON.stringify(jobURL);
+
+            jobsArray.companyArray.push(company);
+            jobsArray.jobArray.push(jobTitle);
+            jobsArray.URLarray.push(jobURL);
+
+            // Append Results on Div
+
+            // Create an anchor element
+            const link = $('<a>');
+            link.prop('href', jobURL);
+            link.prop('target', '_blank');
+
+            const companyElement = $('<span class="text-white">').text(`${company}: `);
+            const jobTitleElement = $('<span class="font-extrabold text-xl">').text(jobTitle);
+
+            link.append(companyElement, $('<br>'), jobTitleElement);
+
+            const checkbox = $('<input class="ml-auto" type="checkbox">');
+
+            checkbox.attr('id', 'myCheckbox');
+            checkbox.attr('name', 'myCheckbox');
+            checkbox.prop('checked', false);
+
+            const listItem = $('<li class="mb-5">');
+            listItem.append(link);
+
+
+            const resultsList = $('#resultsID');
+            resultsList.append(listItem);
+
+            listItem.append(checkbox);
+
+        }
+
+console.log(jobsArray);
+
+    } catch (error) {
+        console.error(error);
+    }
+
+}
+
+fetchJobSearch();
+
 /////////////
 //carousel
 /////////////////
@@ -12,7 +93,6 @@ class Carousel {
         this.carouselControls =controls;
         this.carouselArray = [...items];
     }
-
 
 updateGallery(){
     this.carouselArray.forEach(el => {
@@ -37,6 +117,7 @@ updateGallery(){
             this.carouselArray.push(this.carouselArray.shift());
         }
         this.updateGallery();
+        attachModalEvent();
     }
 
     setControls(){
@@ -45,17 +126,65 @@ updateGallery(){
             document.querySelector(`.gallery-controls-${control}`).innerText = control;
         });
     }
-    useControls(){
+    useControls() {
         const triggers = [...galleryControlsContainer.childNodes];
         triggers.forEach(control => {
-            control.addEventListener('click', e =>{
-                e.preventDefault();
-                this.setCurrentState(control);
-            })
-        })
+          control.addEventListener('click', e => {
+            e.preventDefault();
+            this.setCurrentState(control);
+          });
+        });
+      
+        // Find the central carousel item (third item).
+        const centralItem = this.carouselArray[2];
+        // Add an event listener to the central item to show the modal on click.
+        centralItem.classList.add("cursor-pointer");
+        centralItem.addEventListener('click', showModal);
+        attachModalEvent();
+      }
     }
 
-}
+    function attachModalEvent() {
+        const centralItem = document.querySelector('.gallery-item-3');
+        centralItem.classList.add("cursor-pointer");
+        centralItem.addEventListener('click', showModal);
+      }
+
+
+
+    function showModal() {
+        const modal = document.getElementById('SavedJobModal');
+        modal.classList.remove('hidden');
+        modal.setAttribute('aria-hidden', 'false');
+      }
+  
+// Hide looking glass and show input form
+
+    document.getElementById('looking-glass').addEventListener('click', toggleInputs);
+
+function toggleInputs() {
+    const searchInputs = document.getElementById("searchInputs");
+    const searchImgDiv = document.getElementById("looking-glass");
+  
+    searchInputs.classList.remove('hidden');
+    searchImgDiv.classList.add('hidden');
+  }
+
+// Function to hide the modal
+function hideModal() {
+    const modal = document.getElementById('SavedJobModal');
+    if (modal) {
+      modal.classList.add('hidden');
+    }
+  }
+  
+  // Add click event listener to the X button in the modal header
+  document.addEventListener('DOMContentLoaded', function () {
+    const closeButton = document.querySelector('[data-modal-hide="defaultModal"]');
+    if (closeButton) {
+      closeButton.addEventListener('click', hideModal);
+    }
+  });
 
 const exampleCarousel = new Carousel(galleryContainer, galleryItems, galleryControls);
 

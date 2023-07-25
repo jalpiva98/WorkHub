@@ -1,49 +1,20 @@
-/* ///////////////////////////////////////////  */
-/* Header */
-/* ///////////////////////////////////////////  */
-.headerClass {
-}
 
-/* ///////////////////////////////////////////  */
-/*  Search */
-/* ///////////////////////////////////////////  */
 
-.searchSectionClass {
-}
+
 
 #searchImgID {
     border-radius: 50px;
-}
-/* ///////////////////////////////////////////  */
-/*  History */
-/* ///////////////////////////////////////////  */
-.searchHistory {
-}
-
-/* ///////////////////////////////////////////  */
-/*  Saved */
-/* ///////////////////////////////////////////  */
-
-.savedJobsClass {
-
-}
-
-#leftSavedID{
-
 }
 
 
 /* ///////////////////////////////////////////  */
 /*  Carousel*/
 /* ///////////////////////////////////////////  */
+#resultsID {
+    max-height: 300px;
+    overflow-y: auto;
+}
 
-
-  .savedJobsClass {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    background: linear-gradient(to bottom, rgb(236, 213, 232) 0%, rgb(50, 112, 118) 100%);
-  }
 
 .gallery {
     width: 100%;
@@ -198,6 +169,7 @@ background-size:contain ;
 .gallery-nav li.gallery-item-selected{
     background: #555;
 }
+
 .box {
   display: flex;
   justify-content: around;
@@ -214,3 +186,4 @@ background-size:contain ;
     margin-top: 0; /* Remove top margin on smaller screens */
   }
 }
+
