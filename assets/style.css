@@ -1,8 +1,4 @@
 
-li {
-    margin-left: 10px;
-    margin-right: 10px;
-}
 
 
 
@@ -14,7 +10,10 @@ li {
 /* ///////////////////////////////////////////  */
 /*  Carousel*/
 /* ///////////////////////////////////////////  */
-
+#resultsID {
+    max-height: 300px;
+    overflow-y: auto;
+}
 
 
 .gallery {
