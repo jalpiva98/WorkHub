@@ -1,45 +1,13 @@
-/* ///////////////////////////////////////////  */
-/* Header */
-/* ///////////////////////////////////////////  */
-.headerClass {
-    height: 60px;
-    background-color: rgba(255, 0, 0, 0.69);
+
+li {
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
-/* ///////////////////////////////////////////  */
-/*  Search */
-/* ///////////////////////////////////////////  */
 
-.searchSectionClass {
-
-}
 
 #searchImgID {
     border-radius: 50px;
-}
-/* ///////////////////////////////////////////  */
-/*  History */
-/* ///////////////////////////////////////////  */
-.searchHistory {
-    height: 200px;
-    background-color: rgba(0, 0, 0, 0.38);
-}
-
-/* ///////////////////////////////////////////  */
-/*  Saved */
-/* ///////////////////////////////////////////  */
-
-.savedJobsClass {
-    display: flex;
-    align-content: center;
-    justify-content: center;
-    height: 500px;
-    background-color: rgba(41, 55, 171, 0.38);
-
-}
-
-#leftSavedID{
-
 }
 
 
@@ -48,9 +16,6 @@
 /* ///////////////////////////////////////////  */
 
 
-  .savedJobsClass {
-
-  }
 
 .gallery {
     width: 100%;
