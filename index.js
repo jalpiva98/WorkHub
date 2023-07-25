@@ -222,7 +222,18 @@ document.addEventListener("DOMContentLoaded", function () {
     const location = locationInput.value.trim();
 
     if (position || skill || location) {
-      const searchString = `Position: ${position}, Skills: ${skill}, Location: ${location}`;
+      // Create the formatted search string as a list
+      let searchString = "<ul>";
+      if (position) {
+        searchString += `<li>Position: ${position}</li>`;
+      }
+      if (skill) {
+        searchString += `<li>Skills: ${skill}</li>`;
+      }
+      if (location) {
+        searchString += `<li>Location: ${location}</li>`;
+      }
+      searchString += "</ul>";
 
       // Shift the content of the boxes to the right (box4 -> box3, box3 -> box2, box2 -> box1)
       for (let i = boxes.length - 1; i > 0; i--) {
@@ -230,7 +241,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       // Set the content of box1 with the new search string as a list
-      boxes[0].innerHTML = `<ul><li>${searchString}</li></ul>`;
+      boxes[0].innerHTML = searchString;
 
       // Save the search string in local storage
       localStorage.setItem("box1Content", boxes[0].innerHTML);
