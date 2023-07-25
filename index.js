@@ -75,10 +75,14 @@ async function fetchJobSearch(position, skills, city) {
             checkbox.attr('id', 'myCheckbox');
             checkbox.attr('name', 'myCheckbox');
             checkbox.prop('checked', false);
-
-            $(`#resultsID li#${i}`).remove();
-            const listItem = $('<li id="${i}" class="mb-5">');
+           
+            const listItem = $('<li class="mb-5 bg-orange-500 w-5/6 rounded-lg shadow-md">');
             listItem.append(link);
+            
+            const resultsList = $('#resultsID');
+            resultsList.append(listItem);
+
+
             listItem.append(checkbox);
 
             resultsList.append(listItem);
