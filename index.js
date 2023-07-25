@@ -190,3 +190,45 @@ const exampleCarousel = new Carousel(galleryContainer, galleryItems, galleryCont
 
 exampleCarousel.setControls();
 exampleCarousel.useControls();
+
+
+// Function to update the boxes with the previous searches
+function updateBoxes() {
+  const boxElements = document.querySelectorAll('.box div');
+  for (let i = 0; i < previousSearches.length; i++) {
+    boxElements[i].textContent = previousSearches[i];
+  }
+}
+
+// Load previous searches from localStorage if available
+let previousSearches = JSON.parse(localStorage.getItem('previousSearches')) || [];
+
+// Function to save previous searches to localStorage
+function savePreviousSearches() {
+  localStorage.setItem('previousSearches', JSON.stringify(previousSearches));
+}
+
+// Add event listener to the search input
+document.getElementById('positionInputID').addEventListener('change', function () {
+  const searchValue = this.value.trim();
+
+  // Only add the search value if it's not empty
+  if (searchValue) {
+    // Add the search value to the array
+    previousSearches.push(searchValue);
+
+    // If the array size exceeds 4, remove the oldest search value
+    if (previousSearches.length > 4) {
+      previousSearches.shift();
+    }
+
+    // Update the boxes with the new search values
+    updateBoxes();
+
+    // Save the updated previous searches to localStorage
+    savePreviousSearches();
+  }
+});
+
+// Call updateBoxes() initially to populate the boxes on page load
+updateBoxes();
