@@ -169,3 +169,21 @@ background-size:contain ;
 .gallery-nav li.gallery-item-selected{
     background: #555;
 }
+
+.box {
+  display: flex;
+  justify-content: around;
+  padding-bottom: 30px;
+}
+@media (max-width: 768px) {
+  .box {
+    flex-direction: column; /* Change to vertical stacking for smaller screens */
+  }
+  .box div {
+    width: 100%; /* Make the boxes take the full width of the container on smaller screens */
+  }
+  .searchHistory {
+    margin-top: 0; /* Remove top margin on smaller screens */
+  }
+}
+
