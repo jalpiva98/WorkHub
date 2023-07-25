@@ -1,40 +1,58 @@
-//Search Job Fetch
-///////////////////
-
-//Get Inputs ID
-
-let position = 'manager';
-let skills = 'javascript';
-let city = 'chicago';
+//Global Items
+//Inputs ID for search
 const jobsArray = {
     companyArray: [],
     jobArray: [],
-    URLarray: []
+    URLarray: [],
 };
 
-const url = 'https://jobsearch4.p.rapidapi.com/api/v2/Jobs/Search?SearchQuery=' + position +'+' + city+ '+' + skills +'+' +  '&PageSize=100&PageNumber=1';
-const options = {
-    method: 'GET',
-    headers: {
-        'X-RapidAPI-Key': '9952432343msh4d888bb5e64d387p154272jsnca97fea3ca77',
-        'X-RapidAPI-Host': 'jobsearch4.p.rapidapi.com'
-    }
+const inputFunc = () => {
+    $('#searchInputs').click(function () {
+        const position = $('#positionInputID').val();
+        const skills = $('#skillInputID').val();
+        const city = $('#locationInputID').val();
+
+        jobsArray.companyArray = [];
+        jobsArray.jobArray = [];
+        jobsArray.URLarray = [];
+
+        fetchJobSearch(position, skills, city); // Pass the input values to the function
+    });
 };
 
-async function fetchJobSearch () {
+inputFunc();
+
+async function fetchJobSearch(position, skills, city) {
+    const url =
+        'https://jobsearch4.p.rapidapi.com/api/v2/Jobs/Search?SearchQuery=' +
+        position +
+        '+' +
+        city +
+        '+' +
+        skills +
+        '+' +
+        '&PageSize=50&PageNumber=1';
+
+    const options = {
+        method: 'GET',
+        headers: {
+            'X-RapidAPI-Key': '9952432343msh4d888bb5e64d387p154272jsnca97fea3ca77',
+            'X-RapidAPI-Host': 'jobsearch4.p.rapidapi.com',
+        },
+    };
 
     try {
         const response = await fetch(url, options);
         const result = await response.json();
+
+        const resultsList = $('#resultsID');
+        resultsList.empty();
 
         for (let i = 0; i < 150; i++) {
             let company = result.data[i].company;
             let jobTitle = result.data[i].title;
             let jobURL = result.data[i].url;
 
-            JSON.stringify(company);
-            JSON.stringify(jobTitle);
-            JSON.stringify(jobURL);
 
             jobsArray.companyArray.push(company);
             jobsArray.jobArray.push(jobTitle);
@@ -57,26 +75,27 @@ async function fetchJobSearch () {
             checkbox.attr('id', 'myCheckbox');
             checkbox.attr('name', 'myCheckbox');
             checkbox.prop('checked', false);
-
+           
             const listItem = $('<li class="mb-5 bg-orange-500 w-5/6 rounded-lg shadow-md">');
             listItem.append(link);
             
             const resultsList = $('#resultsID');
             resultsList.append(listItem);
 
+
             listItem.append(checkbox);
 
+            resultsList.append(listItem);
         }
 
-console.log(jobsArray);
+        console.log(jobsArray);
 
     } catch (error) {
         console.error(error);
     }
-
 }
 
-fetchJobSearch();
+
 
 /////////////
 //carousel
