@@ -201,6 +201,7 @@ background-size:contain ;
 .box {
   display: flex;
   justify-content: around;
+  padding-bottom: 30px;
 }
 @media (max-width: 768px) {
   .box {
