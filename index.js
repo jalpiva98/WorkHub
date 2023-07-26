@@ -141,7 +141,7 @@ async function fetchJobSearch(position, skills, city) {
 //carousel
 /////////////////
 
-/*
+
 const galleryContainer=document.querySelector('.gallery-container');
 const galleryControlsContainer = document.querySelector('.gallery-controls');
 const galleryControls = ['previous', 'next'];
@@ -251,4 +251,3 @@ const exampleCarousel = new Carousel(galleryContainer, galleryItems, galleryCont
 exampleCarousel.setControls();
 exampleCarousel.useControls();
 
- */
