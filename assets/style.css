@@ -185,7 +185,6 @@ background-size:contain ;
     background: #555;
 }
 
-<<<<<<< HEAD
 .background{
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     width: 100%;
@@ -222,22 +221,3 @@ background-size:contain ;
     backdrop-filter: blur(15px); /* Aplicando el efecto de vidrio con mayor desenfoque */
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Sombra para resaltar el efecto */
   }
-=======
-.box {
-  display: flex;
-  justify-content: space-around;
-  padding-bottom: 30px;
-}
-@media (max-width: 768px) {
-  .box {
-    flex-direction: column; /* Change to vertical stacking for smaller screens */
-  }
-  .box div {
-    width: 100%; /* Make the boxes take the full width of the container on smaller screens */
-  }
-  .searchHistory {
-    margin-top: 0; /* Remove top margin on smaller screens */
-  }
-}
-
->>>>>>> main
