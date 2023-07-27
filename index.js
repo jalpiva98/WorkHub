@@ -1,4 +1,5 @@
 //Global Items
+
 document.addEventListener("DOMContentLoaded", function () {
   // Get references to the input fields and the search button
   const positionInput = document.getElementById("positionInputID");
@@ -56,6 +57,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 });
+
 //Inputs ID for search
 const jobsArray = {
     companyArray: [],
@@ -77,17 +79,19 @@ const inputFunc = () => {
     });
 };
 
-inputFunc();
-
-const saveJobFunc = () => {
-
-    for (let i = 0; i < 150; i++) {
-
-    }
-
-};
 
 async function fetchJobSearch(position, skills, city) {
+    const hasAtLeastOneInput = position || skills || city;
+
+    if (!hasAtLeastOneInput) {
+        const resultsList = $('#resultsID');
+        resultsList.empty();
+
+        const noResultsMessage = $('<li class="flex items-center justify-center h-full bg-orange-500 rounded-lg shadow-md text-white">').html('<span style="font-size: 3em;"><strong>No results found</strong> 😢</span>');
+        resultsList.append(noResultsMessage);
+        return;
+    }
+   
     const url =
         'https://jobsearch4.p.rapidapi.com/api/v2/Jobs/Search?SearchQuery=' +
         position +
@@ -112,6 +116,13 @@ async function fetchJobSearch(position, skills, city) {
 
         const resultsList = $('#resultsID');
         resultsList.empty();
+
+
+        if (result.data.length === 0) {
+            const noResultsMessage = $('<li class="flex items-center justify-center h-full bg-orange-500 rounded-lg shadow-md text-white">').html('<span style="font-size: 3em;"><strong>No results found</strong> 😢</span>');
+            resultsList.append(noResultsMessage);
+            return;
+        }
 
         for (let i = 0; i < 150; i++) {
             let company = result.data[i].company;
@@ -185,17 +196,9 @@ async function fetchJobSearch(position, skills, city) {
         console.error('error');
     }
 }
-
-
-
-
-
-
-
 /////////////
 //carousel
 /////////////////
-
 
 const galleryContainer=document.querySelector('.gallery-container');
 const galleryControlsContainer = document.querySelector('.gallery-controls');
@@ -209,6 +212,7 @@ class Carousel {
         this.carouselArray = [...items];
     }
 
+<
     updateGallery(){
         this.carouselArray.forEach(el => {
             el.classList.remove('gallery-item-1');
@@ -242,8 +246,10 @@ class Carousel {
         });
     }
     useControls() {
+      
         const triggers = [...galleryControlsContainer.childNodes];
         triggers.forEach(control => {
+
             control.addEventListener('click', e => {
                 e.preventDefault();
                 this.setCurrentState(control);
@@ -256,17 +262,14 @@ class Carousel {
         centralItem.classList.add("cursor-pointer");
         centralItem.addEventListener('click', showModal);
         attachModalEvent();
+
     }
 }
-
 function attachModalEvent() {
     const centralItem = document.querySelector('.gallery-item-3');
     centralItem.classList.add("cursor-pointer");
     centralItem.addEventListener('click', showModal);
 }
-
-
-
 function showModal() {
     const modal = document.getElementById('SavedJobModal');
     modal.classList.remove('hidden');
@@ -281,18 +284,18 @@ function toggleInputs() {
     const searchInputs = document.getElementById("searchInputs");
     const searchImgDiv = document.getElementById("looking-glass");
 
+
     searchInputs.classList.remove('hidden');
     searchImgDiv.classList.add('hidden');
 }
-
 // Function to hide the modal
 function hideModal() {
     const modal = document.getElementById('SavedJobModal');
     if (modal) {
+
         modal.classList.add('hidden');
     }
 }
-
 // Add click event listener to the X button in the modal header
 document.addEventListener('DOMContentLoaded', function () {
     const closeButton = document.querySelector('[data-modal-hide="defaultModal"]');
@@ -300,10 +303,7 @@ document.addEventListener('DOMContentLoaded', function () {
         closeButton.addEventListener('click', hideModal);
     }
 });
-
 const exampleCarousel = new Carousel(galleryContainer, galleryItems, galleryControls);
 
 exampleCarousel.setControls();
 exampleCarousel.useControls();
-
-
