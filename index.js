@@ -1,5 +1,9 @@
 //Global Items
-
+const galleryContainer = document.querySelector('.gallery-container');
+const galleryControlsContainer = document.querySelector('.gallery-controls');
+const galleryControls = ['previous', 'next'];
+const galleryItems = document.querySelectorAll('.gallery-item');
+const savedJobIndexes = [];
 
 //Inputs ID for search
 const jobsArray = {
@@ -27,9 +31,7 @@ inputFunc();
 const saveJobFunc = () => {
 
     for (let i = 0; i < 150; i++) {
-
     }
-
 };
 
 async function fetchJobSearch(position, skills, city) {
@@ -63,7 +65,6 @@ async function fetchJobSearch(position, skills, city) {
             let jobTitle = result.data[i].title;
             let jobURL = result.data[i].url;
 
-
             jobsArray.companyArray.push(company);
             jobsArray.jobArray.push(jobTitle);
             jobsArray.URLarray.push(jobURL);
@@ -89,51 +90,44 @@ async function fetchJobSearch(position, skills, city) {
             const listItem = $('<li class="mb-5 bg-orange-500 w-5/6 rounded-lg shadow-md">');
             listItem.append(link);
 
-            const resultsList = $('#resultsID');
             resultsList.append(listItem);
-            listItem.append(checkbox)
-            resultsList.append(listItem);
-
-            const savedJobsID = $('#SavedContainerID');
+            listItem.append(checkbox);
 
             // Get Checkbox List Item and set it as Local Storage if checked - else remove item
-            // Create an Element on gallery Element to display saved item
-
             $(`#myCheckbox${i}`).on('change', function() {
-
-
-
                 if (this.checked) {
-
                     const listItemText = $(this).closest('li').text();
                     localStorage.setItem(`ListItem${i}`, listItemText + jobURL);
-
-                    const galleryElement = $('<div>').text(listItemText);
-
-                    galleryElement.attr('class', `gallery-item gallery-item-${i+1}`)
-                    galleryElement.attr('id', `Saved_${i+1}`);
-                    galleryElement.attr('data-index', `${i+1}`);
-
-                    savedJobsID.append(galleryElement);
-
-
-
-
-                } else  localStorage.removeItem(`ListItem${i}`);
-
+                    savedJobIndexes.push(i);
+                } else {
+                    localStorage.removeItem(`ListItem${i}`);
+                    const indexToRemove = savedJobIndexes.indexOf(i);
+                    if (indexToRemove !== -1) {
+                        savedJobIndexes.splice(indexToRemove, 1);
+                    }
+                }
+                updateGallery();
             });
         }
-
-
-
+        updateGallery();
     } catch (error) {
         console.error('error');
     }
 }
 
-
-
-
+function updateGallery() {
+    const galleryItems = document.querySelectorAll('.gallery-item');
+  
+    for (let i = 0; i < 5; i++) {
+      const jobIndex = savedJobIndexes[i];
+      const company = jobsArray.companyArray[jobIndex];
+      const jobTitle = jobsArray.jobArray[jobIndex];
+  
+      const listItemText = `${company}: ${jobTitle}`;
+      const jobDisplay = galleryItems[i].querySelector(`#job-display-${i + 1}`);
+      jobDisplay.textContent = listItemText;
+    }
+  }
 
 
 
@@ -142,55 +136,71 @@ async function fetchJobSearch(position, skills, city) {
 /////////////////
 
 
-const galleryContainer=document.querySelector('.gallery-container');
-const galleryControlsContainer = document.querySelector('.gallery-controls');
-const galleryControls = ['previous', 'next'];
-const galleryItems = document.querySelectorAll('.gallery-item');
-
 class Carousel {
-    constructor(container, items, controls){
+    constructor(container, items, controls) {
         this.carouselContainer = container;
-        this.carouselControls =controls;
+        this.carouselControls = controls;
         this.carouselArray = [...items];
     }
 
-    updateGallery(){
-        this.carouselArray.forEach(el => {
-            el.classList.remove('gallery-item-1');
-            el.classList.remove('gallery-item-2');
-            el.classList.remove('gallery-item-3');
-            el.classList.remove('gallery-item-4');
-            el.classList.remove('gallery-item-5');
+    updateGallery() {
+        const galleryItems = document.querySelectorAll('.gallery-item');
+    
+        // Remove the current classes from all items
+        galleryItems.forEach(item => item.classList.remove('gallery-item-1', 'gallery-item-2', 'gallery-item-3', 'gallery-item-4', 'gallery-item-5'));
+    
+        // Determine the new central item index based on the direction
+        if (this.carouselControls === 'next') {
+          this.currentCentralIndex = (this.currentCentralIndex + 1) % this.carouselArray.length;
+        } else if (this.carouselControls === 'previous') {
+          this.currentCentralIndex = (this.currentCentralIndex - 1 + this.carouselArray.length) % this.carouselArray.length;
+        }
+    
+        // Set the new classes for each item based on the new central index
+        for (let i = 0; i < 5; i++) {
+          const itemIndex = (this.currentCentralIndex + i - 2 + this.carouselArray.length) % this.carouselArray.length;
+          const galleryItem = galleryItems[i];
+          galleryItem.classList.add(`gallery-item-${i + 1}`);
+    
+          // Get the job data from the savedJobsID div
+          const jobDataDiv = document.querySelector(`#Saved_${itemIndex + 1}`);
+    
+          // Check if the element exists before accessing its content
+          if (jobDataDiv) {
+            const listItemText = jobDataDiv.textContent;
+    
+            // Update the job data within the gallery item
+            const jobDisplayDiv = galleryItem.querySelector('#job-display');
+            jobDisplayDiv.textContent = listItemText;
+          }
+        }
+      }
 
-        });
-
-        this.carouselArray.slice(0 ,5).forEach((el , i) =>{
-            el.classList.add(`gallery-item-${i+1}`);
-        })
-    }
-
-    setCurrentState(direction) {
+      setCurrentState(direction) {
         if (direction.className === 'gallery-controls-previous') {
-            const previousCentralItem = this.carouselArray[2];
-            previousCentralItem.classList.remove("cursor-pointer");
-            previousCentralItem.removeEventListener('click', showModal);
-            this.carouselArray.unshift(this.carouselArray.pop());
+          this.carouselControls = 'previous'; // Set the carouselControls based on the direction
+          const previousCentralItem = this.carouselArray[2];
+          previousCentralItem.classList.remove("cursor-pointer");
+          previousCentralItem.removeEventListener('click', showModal);
+          this.carouselArray.unshift(this.carouselArray.pop());
         } else {
-            const previousCentralItem = this.carouselArray[2];
-            previousCentralItem.classList.remove("cursor-pointer");
-            previousCentralItem.removeEventListener('click', showModal);
-            this.carouselArray.push(this.carouselArray.shift());
+          this.carouselControls = 'next'; // Set the carouselControls based on the direction
+          const previousCentralItem = this.carouselArray[2];
+          previousCentralItem.classList.remove("cursor-pointer");
+          previousCentralItem.removeEventListener('click', showModal);
+          this.carouselArray.push(this.carouselArray.shift());
         }
         this.updateGallery();
         attachModalEvent();
-    }
+      }
 
-    setControls(){
+    setControls() {
         this.carouselControls.forEach(control => {
             galleryControlsContainer.appendChild(document.createElement('button')).className = `gallery-controls-${control}`;
             document.querySelector(`.gallery-controls-${control}`).innerText = control;
         });
     }
+
     useControls() {
         const triggers = [...galleryControlsContainer.childNodes];
         triggers.forEach(control => {
@@ -215,8 +225,6 @@ function attachModalEvent() {
     centralItem.addEventListener('click', showModal);
 }
 
-
-
 function showModal() {
     const modal = document.getElementById('SavedJobModal');
     modal.classList.remove('hidden');
@@ -224,7 +232,6 @@ function showModal() {
 }
 
 // Hide looking glass and show input form
-
 document.getElementById('looking-glass').addEventListener('click', toggleInputs);
 
 function toggleInputs() {
