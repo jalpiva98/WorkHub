@@ -6,6 +6,21 @@
     border-radius: 50px;
 }
 
+/* Scrollbar */
+
+::-webkit-scrollbar {
+    width: 18px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #0706069d;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: white;
+    border-radius: 4px;
+  }
+
 
 /* ///////////////////////////////////////////  */
 /*  Carousel*/
@@ -172,7 +187,7 @@ background-size:contain ;
 
 .box {
   display: flex;
-  justify-content: around;
+  justify-content: space-around;
   padding-bottom: 30px;
 }
 @media (max-width: 768px) {
