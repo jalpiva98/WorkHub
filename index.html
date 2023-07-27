@@ -31,12 +31,13 @@
 
 <section class="bg-white-500 min-h-[50vh] flex flex-col items-center justify-center m-0" >
     <!-- INPUTS -->
-    <div id="searchInputs" class="p-1 rounded-md flex  items-center glass-container" >
+    <div id="searchInputs" class="p-1 rounded-md flex  items-center glass-container mt-6" >
 
-        <input id="positionInputID" type="text" class="m-6 input-field border-2 border-orange-500 font-bold text-blue-900" placeholder="Position">
-        <input id="skillInputID" type="text" class="m-6 input-field border-2 border-orange-500 font-bold text-blue-900" placeholder="Skills">
-        <input id="locationInputID" type="text" class="m-6 input-field border-2 border-orange-500 font-bold text-blue-900" placeholder="Location">
-        <button type="submit" class="m-6 mt-4 bg-blue-500 text-white px-6 py-3 rounded font-bold">Search Jobs</button>
+        <input id="positionInputID" type="text" class="m-6 input-field   font-bold text-blue-900 rounded-full placeholder:text-gray-500 pl-[20px] outline-none previus bg-white focus:outline-orange-500" placeholder="Position">
+
+        <input id="skillInputID" type="text" class="m-6 input-field   font-bold text-blue-900 rounded-full placeholder:text-gray-500 pl-[20px] outline-none previus bg-white focus:outline-orange-500" placeholder="Skills">
+        <input id="locationInputID" type="text" class="m-6 input-field   font-bold text-blue-900 rounded-full placeholder:text-gray-500 pl-[20px] outline-none previus bg-white focus:outline-orange-500" placeholder="Location">
+        <button type="submit" class="m-6 mt-4 buttonSearch text-white px-6 py-3 rounded font-bold rounded-full custom-button">Search Jobs</button>
     </div>
     <!-- Looking-glass section -->
     <div id="looking-glass" class="bg-white-500 min-h-[50vh] flex flex-col items-center justify-center m-0 ">
@@ -49,8 +50,8 @@
     <!-- RESULTS -->
     <section id="results" class="bg-white-500 flex flex-col items-center m-0 py-12 flex-grow ">
 
-        <div class="max-h-300px items-center m-5 overflow-y-auto custom-scrollbar">
-            <ul id="resultsID" class="h-full bg-blue-800 rounded-3xl flex flex-col items-center p-4">
+        <div class="max-h-300px items-center m-5 overflow-y-auto custom-scrollbar ">
+            <ul id="resultsID" class="h-full  rounded-3xl flex flex-col items-center p-4 ">
                 <!-- List items will be dynamically added here -->
             </ul>
         </div>
@@ -75,20 +76,24 @@
 </div>
 
 
-<section class="bg-blue-800 min-h-[20vh] flex flex-col items-center m-0 py-12 ">
+<section class=" min-h-[vh] flex flex-col items-center glass-container mb-6 mt-6">
 
 
   <!-- SAVED RESULTS -->
 
-  <div class="gallery max-h-[50vh]">
-      <div id="SavedContainerID" class="gallery-container text-white text-xl grid grid-cols-5 gap-24 flex justify-end items-end">
+  <div class="gallery max-h-[50vh] pb-96 mb-40 mpt">
+      <div id="SavedContainerID" class="gallery-container text-white text-xl grid grid-cols-5 gap-24 flex justify-end items-center ">
+        
         <div class="gallery-item gallery-item-1 flex justify-center items-center bg-orange-500"  data-index="1"> <div id="job-display-1" class="flex items-center justify-center h-full placeholder-message"> PLACEHOLDER TEXT 1 </div> </div>
+
         <div class="gallery-item gallery-item-2 flex justify-center items-center bg-orange-500"  data-index="2"> <div id="job-display-2" class="flex items-center justify-center h-full placeholder-message"> PLACEHOLDER TEXT 2</div> </div>
+
         <div  id="central-item job-display-3"  class="gallery-item gallery-item-3 flex justify-center items-center bg-orange-500  cursor-pointer" data-index="3">  <div id="job-display-3" class="flex items-center justify-center h-full placeholder-message"> PLACEHOLDER TEXT 3</div> </div>
+
         <div class="gallery-item gallery-item-4 flex justify-center items-center bg-orange-500"  data-index="4"> <div id="job-display-4" class="flex items-center justify-center h-full placeholder-message"> PLACEHOLDER TEXT 4</div>  </div>
         <div class="gallery-item gallery-item-5 flex justify-center items-center bg-orange-500"  data-index="5"> <div id="job-display-5" class="flex items-center justify-center h-full placeholder-message"> PLACEHOLDER TEXT 5</div>  </div>
       </div>
-      <div class="gallery-controls">
+      <div class="gallery-controls ">
       </div>
   </div>
 </section>
@@ -123,7 +128,7 @@
     </div>
 </div>
 
-<footer id="contact-us" class="place-self-start bg-orange-500 text-xl flex items-center justify-center m-0 text-white font-bold p-10">
+<footer id="contact-us" class="place-self-start bg-orange-500 text-xl flex items-center justify-center mt-6 text-white font-bold p-10">
     Contact Info
 </footer>
 
