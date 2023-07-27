@@ -4,7 +4,6 @@ const galleryControlsContainer = document.querySelector('.gallery-controls');
 const galleryControls = ['previous', 'next'];
 const galleryItems = document.querySelectorAll('.gallery-item');
 const savedJobIndexes = [];
-let centralJobIndex = savedJobIndexes.length > 0 ? savedJobIndexes[0] : undefined;
 
 let displayedJobsArray = [];
 
@@ -98,18 +97,22 @@ async function fetchJobSearch(position, skills, city) {
             listItem.append(checkbox);
 
             // Get Checkbox List Item and set it as Local Storage if checked - else remove item
-            $(`#myCheckbox${i}`).on('change', function() {
+            $(`#myCheckbox${i}`).on('change', function () {
                 if (this.checked) {
                     const listItemText = $(this).closest('li').text();
-                    localStorage.setItem(`ListItem${i}`, listItemText + jobURL);
-                    savedJobIndexes.push(i);
+                    const jobIndex = i; // Store the index of the job in the local storage
+                    localStorage.setItem(`ListItem${jobIndex}`, listItemText + jobURL);
+                    savedJobIndexes.push(jobIndex);
                 } else {
-                    localStorage.removeItem(`ListItem${i}`);
-                    const indexToRemove = savedJobIndexes.indexOf(i);
+                    const jobIndex = i; // Retrieve the stored index of the job from local storage
+                    localStorage.removeItem(`ListItem${jobIndex}`);
+                    const indexToRemove = savedJobIndexes.indexOf(jobIndex);
                     if (indexToRemove !== -1) {
                         savedJobIndexes.splice(indexToRemove, 1);
                     }
                 }
+                // Update the displayed jobs immediately after saving/removing a job.
+                updateDisplayedJobsArray();
                 updateGallery();
             });
         }
@@ -120,42 +123,47 @@ async function fetchJobSearch(position, skills, city) {
 }
 
 function updateDisplayedJobsArray() {
-    displayedJobsArray = [];
-  
-    // Obtenemos el índice del trabajo central (posición 2 en el carrusel)
-    const centralIndex = savedJobIndexes.indexOf(centralJobIndex);
-    // Si el trabajo central no está en la lista de trabajos mostrados, lo agregamos al inicio
-    if (centralIndex === -1) {
-        displayedJobsArray.push(centralJobIndex);
-    }
-  
-    for (let i = centralIndex - 1; i >= 0; i--) {
-        displayedJobsArray.unshift(savedJobIndexes[i]);
-        if (displayedJobsArray.length === 5) break; 
+    displayedJobsArray = savedJobIndexes.slice();
+
+    // If there are fewer than 5 saved jobs, fill the array with `undefined` values
+    while (displayedJobsArray.length < 5) {
+        displayedJobsArray.push(undefined);
     }
 
-    for (let i = centralIndex + 1; i < savedJobIndexes.length; i++) {
-        displayedJobsArray.push(savedJobIndexes[i]);
-        if (displayedJobsArray.length === 5) break; 
+    // Get the central job index
+    const centralJobIndex = displayedJobsArray[Math.floor(displayedJobsArray.length / 2)];
+
+    // Fill the displayedJobsArray with job indexes before the central job
+    let currentIndex = savedJobIndexes.indexOf(centralJobIndex) - 1;
+    while (displayedJobsArray[0] === undefined && currentIndex >= 0) {
+        displayedJobsArray.unshift(savedJobIndexes[currentIndex]);
+        currentIndex--;
+    }
+
+    // Fill the displayedJobsArray with job indexes after the central job
+    currentIndex = savedJobIndexes.indexOf(centralJobIndex) + 1;
+    while (displayedJobsArray[displayedJobsArray.length - 1] === undefined && currentIndex < savedJobIndexes.length) {
+        displayedJobsArray.push(savedJobIndexes[currentIndex]);
+        currentIndex++;
     }
 }
 
 function updateGallery() {
     const galleryItems = document.querySelectorAll('.gallery-item');
 
-    for (let i = 0; i < galleryItems.length; i++) {
-        const listItem = galleryItems[i];
-        const jobDisplay = listItem.querySelector(`#job-display-${i + 1}`);
+    for (let i = 1; i <= galleryItems.length; i++) {
+        const listItem = galleryItems[i - 1];
+        const jobDisplay = listItem.querySelector(`#job-display-${i}`);
 
-        if (i < displayedJobsArray.length) {
-            const jobIndex = displayedJobsArray[i];
+        if (i <= displayedJobsArray.length) {
+            const jobIndex = displayedJobsArray[i - 1];
             const company = jobsArray.companyArray[jobIndex];
             const jobTitle = jobsArray.jobArray[jobIndex];
             const listItemText = `${company}: ${jobTitle}`;
             jobDisplay.textContent = listItemText;
             listItem.style.display = 'block';
         } else {
-            jobDisplay.textContent = 'Save your favorite jobs and it will show here!';
+            jobDisplay.textContent = 'Save your favorite jobs and they will show here!';
             listItem.style.display = 'flex';
             listItem.style.alignItems = 'center';
             listItem.style.justifyContent = 'center';
@@ -188,15 +196,10 @@ class Carousel {
     setCurrentState(direction) {
         if (direction === 'previous') {
             this.carouselArray.unshift(this.carouselArray.pop());
-            centralJobIndex = savedJobIndexes[savedJobIndexes.indexOf(centralJobIndex) - 1];
-            if (centralJobIndex === undefined) centralJobIndex = savedJobIndexes[savedJobIndexes.length - 1];
         } else {
             this.carouselArray.push(this.carouselArray.shift());
-            centralJobIndex = savedJobIndexes[savedJobIndexes.indexOf(centralJobIndex) + 1];
-            if (centralJobIndex === undefined) centralJobIndex = savedJobIndexes[0];
         }
-        updateDisplayedJobsArray(); // Actualizar el array de trabajos mostrados
-        this.updateGallery(); // Actualizar el carrusel
+        this.updateGallery(); // Update the carousel classes
     }
 
     setControls() {
@@ -207,6 +210,8 @@ class Carousel {
     }
 
     useControls() {
+        let previousCentralItem = this.carouselArray[2];
+
         const triggers = [...galleryControlsContainer.childNodes];
         triggers.forEach(control => {
             // Verificar si el control es un botón antes de agregar el evento de clic
@@ -217,17 +222,20 @@ class Carousel {
                     e.preventDefault();
                     console.log(displayedJobsArray);
                     this.setCurrentState(controlName);
+
+                    // Remove event listener and class from previous central item
+                    previousCentralItem.classList.remove("cursor-pointer");
+                    previousCentralItem.removeEventListener('click', showModal);
+                    previousCentralItem = this.carouselArray[2];
+
+                    // Add event listener to the new central item
+                    const centralItem = this.carouselArray[2];
+                    centralItem.classList.add("cursor-pointer");
+                    centralItem.addEventListener('click', showModal);
                 });
             }
-
-            // Find the central carousel item (third item).
-            const centralItem = this.carouselArray[2];
-            // Add an event listener to the central item to show the modal on click.
-            centralItem.classList.add("cursor-pointer");
-            centralItem.addEventListener('click', showModal);
-            attachModalEvent()
         });
-    }
+}
 }
 
 function attachModalEvent() {
