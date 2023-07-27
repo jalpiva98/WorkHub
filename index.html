@@ -13,10 +13,12 @@
 
 
 
+
 <body class="background">
 <!-- Nav Bar -->
 <div id="navbar" class="headerClass left-0 w-full h-16  px-8 flex items-center justify-between m-0 glass-container" >
     <div class="text-orange-500 text-3xl font-bold">WorkHub</div>
+
     <nav class="space-x-4">
         <a href="#contact-us" class="text-white">Contact us</a>
         <a href="#SavedJobs" class="text-white">Favorite</a>
@@ -26,9 +28,11 @@
 </div>
 
 
+
 <section class="bg-white-500 min-h-[50vh] flex flex-col items-center justify-center m-0" >
     <!-- INPUTS -->
     <div id="searchInputs" class="p-1 rounded-md flex  items-center glass-container" >
+
         <input id="positionInputID" type="text" class="m-6 input-field border-2 border-orange-500 font-bold text-blue-900" placeholder="Position">
         <input id="skillInputID" type="text" class="m-6 input-field border-2 border-orange-500 font-bold text-blue-900" placeholder="Skills">
         <input id="locationInputID" type="text" class="m-6 input-field border-2 border-orange-500 font-bold text-blue-900" placeholder="Location">
@@ -57,8 +61,10 @@
 
 <!-- Search history section -->
 <!-- Search history section -->
+
 <div class="searchHistory  min-h-[20vh] flex flex-col items-center justify-center m-0 shadow-md glass-container">
     <div class="text-white text-xl font-bold p-12 r">Previous Searches</div>
+
     <div class="box flex justify-around w-full" >
         <!-- Replace the placeholder content with your actual data from local storage -->
         <div class="bg-white w-64 h-48 rounded-lg p-4">Box 1</div>
@@ -71,19 +77,21 @@
 
 <section class="bg-blue-800 min-h-[20vh] flex flex-col items-center m-0 py-12 ">
 
-    <!-- SAVED RESULTS -->
 
-    <div class="gallery max-h-[50vh]">
-        <div id="SavedContainerID" class="gallery-container text-white text-xl grid grid-cols-5 gap-24 flex justify-end items-end">
+  <!-- SAVED RESULTS -->
 
-
-
-
-        </div>
-        <div class="gallery-controls">
-
-        </div>
-    </div>
+  <div class="gallery max-h-[50vh]">
+      <div id="SavedContainerID" class="gallery-container text-white text-xl grid grid-cols-5 gap-24 flex justify-end items-end">
+        <div class="gallery-item gallery-item-1 flex justify-center items-center bg-orange-500"  data-index="1"> <div id="job-display-1" class="flex items-center justify-center h-full placeholder-message"> PLACEHOLDER TEXT 1 </div> </div>
+        <div class="gallery-item gallery-item-2 flex justify-center items-center bg-orange-500"  data-index="2"> <div id="job-display-2" class="flex items-center justify-center h-full placeholder-message"> PLACEHOLDER TEXT 2</div> </div>
+        <div  id=central-item class= "gallery-item gallery-item-3 flex justify-center items-center bg-orange-500 "  data-index="3" class="flex items-center justify-center h-full placeholder-message"> <div id="job-display-3"> PLACEHOLDER TEXT 3</div> </div>
+        <div class="gallery-item gallery-item-4 flex justify-center items-center bg-orange-500"  data-index="4"> <div id="job-display-4" class="flex items-center justify-center h-full placeholder-message"> PLACEHOLDER TEXT 4</div>  </div>
+        <div class="gallery-item gallery-item-5 flex justify-center items-center bg-orange-500"  data-index="5"> <div id="job-display-5" class="flex items-center justify-center h-full placeholder-message"> PLACEHOLDER TEXT 5</div>  </div>
+      </div>
+      <div class="gallery-controls">
+      </div>
+  </div>
+</section>
 
     <!-- Main modal -->
     <div id="SavedJobModal" tabindex="-1" aria-hidden="true" class="hidden fixed inset-0 flex items-center justify-center z-50">
