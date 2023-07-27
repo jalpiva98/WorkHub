@@ -1,4 +1,6 @@
 //Global Items
+
+
 //Inputs ID for search
 const jobsArray = {
     companyArray: [],
@@ -21,6 +23,14 @@ const inputFunc = () => {
 };
 
 inputFunc();
+
+const saveJobFunc = () => {
+
+    for (let i = 0; i < 150; i++) {
+
+    }
+
+};
 
 async function fetchJobSearch(position, skills, city) {
     const url =
@@ -72,34 +82,66 @@ async function fetchJobSearch(position, skills, city) {
 
             const checkbox = $('<input class="ml-auto" type="checkbox">');
 
-            checkbox.attr('id', 'myCheckbox');
+            checkbox.attr('id', `myCheckbox${i}`);
             checkbox.attr('name', 'myCheckbox');
             checkbox.prop('checked', false);
-           
+
             const listItem = $('<li class="mb-5 bg-orange-500 w-5/6 rounded-lg shadow-md">');
             listItem.append(link);
-            
+
             const resultsList = $('#resultsID');
             resultsList.append(listItem);
-
-
-            listItem.append(checkbox);
-
+            listItem.append(checkbox)
             resultsList.append(listItem);
+
+            const savedJobsID = $('#SavedContainerID');
+
+            // Get Checkbox List Item and set it as Local Storage if checked - else remove item
+            // Create an Element on gallery Element to display saved item
+
+            $(`#myCheckbox${i}`).on('change', function() {
+
+
+
+                if (this.checked) {
+
+                    const listItemText = $(this).closest('li').text();
+                    localStorage.setItem(`ListItem${i}`, listItemText + jobURL);
+
+                    const galleryElement = $('<div>').text(listItemText);
+
+                    galleryElement.attr('class', `gallery-item gallery-item-${i+1}`)
+                    galleryElement.attr('id', `Saved_${i+1}`);
+                    galleryElement.attr('data-index', `${i+1}`);
+
+                    savedJobsID.append(galleryElement);
+
+
+
+
+                } else  localStorage.removeItem(`ListItem${i}`);
+
+            });
         }
 
-        console.log(jobsArray);
+
 
     } catch (error) {
-        console.error(error);
+        console.error('error');
     }
 }
+
+
+
+
 
 
 
 /////////////
 //carousel
 /////////////////
+
+
 const galleryContainer=document.querySelector('.gallery-container');
 const galleryControlsContainer = document.querySelector('.gallery-controls');
 const galleryControls = ['previous', 'next'];
@@ -112,16 +154,16 @@ class Carousel {
         this.carouselArray = [...items];
     }
 
-updateGallery(){
-    this.carouselArray.forEach(el => {
-        el.classList.remove('gallery-item-1');
-        el.classList.remove('gallery-item-2');
-        el.classList.remove('gallery-item-3');
-        el.classList.remove('gallery-item-4');
-        el.classList.remove('gallery-item-5');
+    updateGallery(){
+        this.carouselArray.forEach(el => {
+            el.classList.remove('gallery-item-1');
+            el.classList.remove('gallery-item-2');
+            el.classList.remove('gallery-item-3');
+            el.classList.remove('gallery-item-4');
+            el.classList.remove('gallery-item-5');
 
         });
-    
+
         this.carouselArray.slice(0 ,5).forEach((el , i) =>{
             el.classList.add(`gallery-item-${i+1}`);
         })
@@ -129,7 +171,7 @@ updateGallery(){
 
     setCurrentState(direction){
         if(direction.className === 'gallery-controls-previous'){
-            
+
             this.carouselArray.unshift(this.carouselArray.pop());
         }else{
             this.carouselArray.push(this.carouselArray.shift());
@@ -147,64 +189,65 @@ updateGallery(){
     useControls() {
         const triggers = [...galleryControlsContainer.childNodes];
         triggers.forEach(control => {
-          control.addEventListener('click', e => {
-            e.preventDefault();
-            this.setCurrentState(control);
-          });
+            control.addEventListener('click', e => {
+                e.preventDefault();
+                this.setCurrentState(control);
+            });
         });
-      
+
         // Find the central carousel item (third item).
         const centralItem = this.carouselArray[2];
         // Add an event listener to the central item to show the modal on click.
         centralItem.classList.add("cursor-pointer");
         centralItem.addEventListener('click', showModal);
         attachModalEvent();
-      }
     }
+}
 
-    function attachModalEvent() {
-        const centralItem = document.querySelector('.gallery-item-3');
-        centralItem.classList.add("cursor-pointer");
-        centralItem.addEventListener('click', showModal);
-      }
+function attachModalEvent() {
+    const centralItem = document.querySelector('.gallery-item-3');
+    centralItem.classList.add("cursor-pointer");
+    centralItem.addEventListener('click', showModal);
+}
 
 
 
-    function showModal() {
-        const modal = document.getElementById('SavedJobModal');
-        modal.classList.remove('hidden');
-        modal.setAttribute('aria-hidden', 'false');
-      }
-  
+function showModal() {
+    const modal = document.getElementById('SavedJobModal');
+    modal.classList.remove('hidden');
+    modal.setAttribute('aria-hidden', 'false');
+}
+
 // Hide looking glass and show input form
 
-    document.getElementById('looking-glass').addEventListener('click', toggleInputs);
+document.getElementById('looking-glass').addEventListener('click', toggleInputs);
 
 function toggleInputs() {
     const searchInputs = document.getElementById("searchInputs");
     const searchImgDiv = document.getElementById("looking-glass");
-  
+
     searchInputs.classList.remove('hidden');
     searchImgDiv.classList.add('hidden');
-  }
+}
 
 // Function to hide the modal
 function hideModal() {
     const modal = document.getElementById('SavedJobModal');
     if (modal) {
-      modal.classList.add('hidden');
+        modal.classList.add('hidden');
     }
-  }
-  
-  // Add click event listener to the X button in the modal header
-  document.addEventListener('DOMContentLoaded', function () {
+}
+
+// Add click event listener to the X button in the modal header
+document.addEventListener('DOMContentLoaded', function () {
     const closeButton = document.querySelector('[data-modal-hide="defaultModal"]');
     if (closeButton) {
-      closeButton.addEventListener('click', hideModal);
+        closeButton.addEventListener('click', hideModal);
     }
-  });
+});
 
 const exampleCarousel = new Carousel(galleryContainer, galleryItems, galleryControls);
 
 exampleCarousel.setControls();
 exampleCarousel.useControls();
+
