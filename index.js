@@ -4,6 +4,9 @@ const galleryControlsContainer = document.querySelector('.gallery-controls');
 const galleryControls = ['previous', 'next'];
 const galleryItems = document.querySelectorAll('.gallery-item');
 const savedJobIndexes = [];
+let centralJobIndex = savedJobIndexes.length > 0 ? savedJobIndexes[0] : undefined;
+
+let displayedJobsArray = [];
 
 //Inputs ID for search
 const jobsArray = {
@@ -29,8 +32,9 @@ const inputFunc = () => {
 inputFunc();
 
 const saveJobFunc = () => {
-
     for (let i = 0; i < 150; i++) {
+        // Add any additional functionality here if needed
+        updateDisplayedJobsArray();
     }
 };
 
@@ -115,26 +119,51 @@ async function fetchJobSearch(position, skills, city) {
     }
 }
 
+function updateDisplayedJobsArray() {
+    displayedJobsArray = [];
+  
+    // Obtenemos el índice del trabajo central (posición 2 en el carrusel)
+    const centralIndex = savedJobIndexes.indexOf(centralJobIndex);
+    // Si el trabajo central no está en la lista de trabajos mostrados, lo agregamos al inicio
+    if (centralIndex === -1) {
+        displayedJobsArray.push(centralJobIndex);
+    }
+  
+    for (let i = centralIndex - 1; i >= 0; i--) {
+        displayedJobsArray.unshift(savedJobIndexes[i]);
+        if (displayedJobsArray.length === 5) break; 
+    }
+
+    for (let i = centralIndex + 1; i < savedJobIndexes.length; i++) {
+        displayedJobsArray.push(savedJobIndexes[i]);
+        if (displayedJobsArray.length === 5) break; 
+    }
+}
+
 function updateGallery() {
     const galleryItems = document.querySelectorAll('.gallery-item');
-  
-    for (let i = 0; i < 5; i++) {
-      const jobIndex = savedJobIndexes[i];
-      const company = jobsArray.companyArray[jobIndex];
-      const jobTitle = jobsArray.jobArray[jobIndex];
-  
-      const listItemText = `${company}: ${jobTitle}`;
-      const jobDisplay = galleryItems[i].querySelector(`#job-display-${i + 1}`);
-      jobDisplay.textContent = listItemText;
+
+    for (let i = 0; i < galleryItems.length; i++) {
+        const listItem = galleryItems[i];
+        const jobDisplay = listItem.querySelector(`#job-display-${i + 1}`);
+
+        if (i < displayedJobsArray.length) {
+            const jobIndex = displayedJobsArray[i];
+            const company = jobsArray.companyArray[jobIndex];
+            const jobTitle = jobsArray.jobArray[jobIndex];
+            const listItemText = `${company}: ${jobTitle}`;
+            jobDisplay.textContent = listItemText;
+            listItem.style.display = 'block';
+        } else {
+            jobDisplay.textContent = 'Save your favorite jobs and it will show here!';
+            listItem.style.display = 'flex';
+            listItem.style.alignItems = 'center';
+            listItem.style.justifyContent = 'center';
+            listItem.classList.add('flex', 'items-center', 'justify-center');
+            jobDisplay.classList.add('text-center');
+        }
     }
-  }
-
-
-
-/////////////
-//carousel
-/////////////////
-
+}
 
 class Carousel {
     constructor(container, items, controls) {
@@ -144,55 +173,31 @@ class Carousel {
     }
 
     updateGallery() {
-        const galleryItems = document.querySelectorAll('.gallery-item');
+        this.carouselArray.forEach(el => {
+            el.classList.remove('gallery-item-1');
+            el.classList.remove('gallery-item-2');
+            el.classList.remove('gallery-item-3');
+            el.classList.remove('gallery-item-4');
+            el.classList.remove('gallery-item-5');
+        });
+        this.carouselArray.slice(0, 5).forEach((el, i) => {
+            el.classList.add(`gallery-item-${i + 1}`);
+        });
+    }
     
-        // Remove the current classes from all items
-        galleryItems.forEach(item => item.classList.remove('gallery-item-1', 'gallery-item-2', 'gallery-item-3', 'gallery-item-4', 'gallery-item-5'));
-    
-        // Determine the new central item index based on the direction
-        if (this.carouselControls === 'next') {
-          this.currentCentralIndex = (this.currentCentralIndex + 1) % this.carouselArray.length;
-        } else if (this.carouselControls === 'previous') {
-          this.currentCentralIndex = (this.currentCentralIndex - 1 + this.carouselArray.length) % this.carouselArray.length;
-        }
-    
-        // Set the new classes for each item based on the new central index
-        for (let i = 0; i < 5; i++) {
-          const itemIndex = (this.currentCentralIndex + i - 2 + this.carouselArray.length) % this.carouselArray.length;
-          const galleryItem = galleryItems[i];
-          galleryItem.classList.add(`gallery-item-${i + 1}`);
-    
-          // Get the job data from the savedJobsID div
-          const jobDataDiv = document.querySelector(`#Saved_${itemIndex + 1}`);
-    
-          // Check if the element exists before accessing its content
-          if (jobDataDiv) {
-            const listItemText = jobDataDiv.textContent;
-    
-            // Update the job data within the gallery item
-            const jobDisplayDiv = galleryItem.querySelector('#job-display');
-            jobDisplayDiv.textContent = listItemText;
-          }
-        }
-      }
-
-      setCurrentState(direction) {
-        if (direction.className === 'gallery-controls-previous') {
-          this.carouselControls = 'previous'; // Set the carouselControls based on the direction
-          const previousCentralItem = this.carouselArray[2];
-          previousCentralItem.classList.remove("cursor-pointer");
-          previousCentralItem.removeEventListener('click', showModal);
-          this.carouselArray.unshift(this.carouselArray.pop());
+    setCurrentState(direction) {
+        if (direction === 'previous') {
+            this.carouselArray.unshift(this.carouselArray.pop());
+            centralJobIndex = savedJobIndexes[savedJobIndexes.indexOf(centralJobIndex) - 1];
+            if (centralJobIndex === undefined) centralJobIndex = savedJobIndexes[savedJobIndexes.length - 1];
         } else {
-          this.carouselControls = 'next'; // Set the carouselControls based on the direction
-          const previousCentralItem = this.carouselArray[2];
-          previousCentralItem.classList.remove("cursor-pointer");
-          previousCentralItem.removeEventListener('click', showModal);
-          this.carouselArray.push(this.carouselArray.shift());
+            this.carouselArray.push(this.carouselArray.shift());
+            centralJobIndex = savedJobIndexes[savedJobIndexes.indexOf(centralJobIndex) + 1];
+            if (centralJobIndex === undefined) centralJobIndex = savedJobIndexes[0];
         }
-        this.updateGallery();
-        attachModalEvent();
-      }
+        updateDisplayedJobsArray(); // Actualizar el array de trabajos mostrados
+        this.updateGallery(); // Actualizar el carrusel
+    }
 
     setControls() {
         this.carouselControls.forEach(control => {
@@ -204,18 +209,24 @@ class Carousel {
     useControls() {
         const triggers = [...galleryControlsContainer.childNodes];
         triggers.forEach(control => {
-            control.addEventListener('click', e => {
-                e.preventDefault();
-                this.setCurrentState(control);
-            });
-        });
+            // Verificar si el control es un botón antes de agregar el evento de clic
+            if (control.tagName === 'BUTTON') {
+                const controlClass = control.className;
+                const controlName = controlClass.replace('gallery-controls-', '');
+                control.addEventListener('click', e => {
+                    e.preventDefault();
+                    console.log(displayedJobsArray);
+                    this.setCurrentState(controlName);
+                });
+            }
 
-        // Find the central carousel item (third item).
-        const centralItem = this.carouselArray[2];
-        // Add an event listener to the central item to show the modal on click.
-        centralItem.classList.add("cursor-pointer");
-        centralItem.addEventListener('click', showModal);
-        attachModalEvent();
+            // Find the central carousel item (third item).
+            const centralItem = this.carouselArray[2];
+            // Add an event listener to the central item to show the modal on click.
+            centralItem.classList.add("cursor-pointer");
+            centralItem.addEventListener('click', showModal);
+            attachModalEvent()
+        });
     }
 }
 
@@ -250,7 +261,6 @@ function hideModal() {
     }
 }
 
-// Add click event listener to the X button in the modal header
 document.addEventListener('DOMContentLoaded', function () {
     const closeButton = document.querySelector('[data-modal-hide="defaultModal"]');
     if (closeButton) {
@@ -260,5 +270,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 const exampleCarousel = new Carousel(galleryContainer, galleryItems, galleryControls);
 
+// Llamar a updateGallery() para mostrar los trabajos guardados inmediatamente
+updateGallery();
 exampleCarousel.setControls();
 exampleCarousel.useControls();
