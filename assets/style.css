@@ -183,22 +183,28 @@ border-radius:15px; ;
     background: #555;
 }
 
-.box {
-  display: flex;
-  justify-content: space-around;
-  padding-bottom: 30px;
+.background{
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    width: 100%;
+    height: 100vh;
+    color: #fff;
+    background: linear-gradient(45deg,red,blue,orange,black);
+    background-size: 400% 400%;
+    position: relative;
+    animation: cambiar 30s ease-in-out infinite;
 }
-@media (max-width: 768px) {
-  .box {
-    flex-direction: column; /* Change to vertical stacking for smaller screens */
-  }
-  .box div {
-    width: 100%; /* Make the boxes take the full width of the container on smaller screens */
-  }
-  .searchHistory {
-    margin-top: 0; /* Remove top margin on smaller screens */
-  }
+.background-son{
+    font-size: 4rem;
+    letter-spacing: 2px;
+    border: solid 3px #fff;
+    border-radius: 25px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    padding: 2rem 3rem;
 }
+
 
 .placeholder-message {
     display: flex;
@@ -206,3 +212,19 @@ border-radius:15px; ;
     justify-content: center; /* Centrar horizontalmente */
     height: 100%;
 }
+
+@keyframes cambiar{
+    0%{background-position: 0 50%;}
+    50%{background-position: 100% 50%;}
+    100%{background-position: 0 50%;}
+}
+
+.glass-container {
+    padding: 30px;
+    background-color: rgba(255, 255, 255, 0.2); /* Color de fondo con mayor transparencia */
+    background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 10%, transparent 50%, rgba(255, 255, 255, 0.15) 90%); /* Degradado para simular vidrio */
+    border-radius: 10px;
+    backdrop-filter: blur(15px); /* Aplicando el efecto de vidrio con mayor desenfoque */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Sombra para resaltar el efecto */
+  }
+
