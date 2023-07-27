@@ -4,7 +4,7 @@ const galleryControlsContainer = document.querySelector('.gallery-controls');
 const galleryControls = ['previous', 'next'];
 const galleryItems = document.querySelectorAll('.gallery-item');
 const savedJobIndexes = [];
-
+let currentJobData = null; // Variable to store the data of the currently displayed job
 let displayedJobsArray = [];
 
 //Inputs ID for search
@@ -123,26 +123,24 @@ async function fetchJobSearch(position, skills, city) {
 }
 
 function updateDisplayedJobsArray() {
-    displayedJobsArray = savedJobIndexes.slice();
+    displayedJobsArray = [];
 
-    // If there are fewer than 5 saved jobs, fill the array with `undefined` values
-    while (displayedJobsArray.length < 5) {
-        displayedJobsArray.push(undefined);
-    }
-
-    // Get the central job index
-    const centralJobIndex = displayedJobsArray[Math.floor(displayedJobsArray.length / 2)];
+    // Get the central job index (gallery-item-3)
+    const centralJobIndex = savedJobIndexes.indexOf(2);
 
     // Fill the displayedJobsArray with job indexes before the central job
-    let currentIndex = savedJobIndexes.indexOf(centralJobIndex) - 1;
-    while (displayedJobsArray[0] === undefined && currentIndex >= 0) {
+    let currentIndex = centralJobIndex - 1;
+    while (displayedJobsArray.length < 2 && currentIndex >= 0) {
         displayedJobsArray.unshift(savedJobIndexes[currentIndex]);
         currentIndex--;
     }
 
+    // Fill the displayedJobsArray with the central job (gallery-item-3)
+    displayedJobsArray.push(savedJobIndexes[centralJobIndex]);
+
     // Fill the displayedJobsArray with job indexes after the central job
-    currentIndex = savedJobIndexes.indexOf(centralJobIndex) + 1;
-    while (displayedJobsArray[displayedJobsArray.length - 1] === undefined && currentIndex < savedJobIndexes.length) {
+    currentIndex = centralJobIndex + 1;
+    while (displayedJobsArray.length < 5 && currentIndex < savedJobIndexes.length) {
         displayedJobsArray.push(savedJobIndexes[currentIndex]);
         currentIndex++;
     }
@@ -155,14 +153,25 @@ function updateGallery() {
         const listItem = galleryItems[i - 1];
         const jobDisplay = listItem.querySelector(`#job-display-${i}`);
 
-        if (i <= displayedJobsArray.length) {
-            const jobIndex = displayedJobsArray[i - 1];
+        if (i <= savedJobIndexes.length) {
+            const jobIndex = savedJobIndexes[i - 1];
             const company = jobsArray.companyArray[jobIndex];
             const jobTitle = jobsArray.jobArray[jobIndex];
+            const jobURL = jobsArray.URLarray[jobIndex];
             const listItemText = `${company}: ${jobTitle}`;
             jobDisplay.textContent = listItemText;
             listItem.style.display = 'block';
+
+            // Store the data of the currently displayed job for the modal
+            if (i === 3) {
+                currentJobData = {
+                    company,
+                    jobTitle,
+                    jobURL,
+                };
+            }
         } else {
+            // If there's no saved job at this index, display the placeholder message
             jobDisplay.textContent = 'Save your favorite jobs and they will show here!';
             listItem.style.display = 'flex';
             listItem.style.alignItems = 'center';
@@ -171,6 +180,9 @@ function updateGallery() {
             jobDisplay.classList.add('text-center');
         }
     }
+
+    // Attach the modal event to the central item after updating the gallery
+    attachModalEvent();
 }
 
 class Carousel {
@@ -211,8 +223,8 @@ class Carousel {
 
     useControls() {
         let previousCentralItem = this.carouselArray[2];
-
         const triggers = [...galleryControlsContainer.childNodes];
+    
         triggers.forEach(control => {
             // Verificar si el control es un botón antes de agregar el evento de clic
             if (control.tagName === 'BUTTON') {
@@ -222,20 +234,29 @@ class Carousel {
                     e.preventDefault();
                     console.log(displayedJobsArray);
                     this.setCurrentState(controlName);
-
+    
                     // Remove event listener and class from previous central item
                     previousCentralItem.classList.remove("cursor-pointer");
                     previousCentralItem.removeEventListener('click', showModal);
                     previousCentralItem = this.carouselArray[2];
-
+    
                     // Add event listener to the new central item
                     const centralItem = this.carouselArray[2];
                     centralItem.classList.add("cursor-pointer");
                     centralItem.addEventListener('click', showModal);
+    
+                    // Update currentJobData with the new central item's data
+                    const centralItemIndex = parseInt(centralItem.dataset.index, 10);
+                    currentJobData = {
+                        jobIndex: displayedJobsArray[centralItemIndex - 1],
+                        company: jobsArray.companyArray[displayedJobsArray[centralItemIndex - 1]],
+                        jobTitle: jobsArray.jobArray[displayedJobsArray[centralItemIndex - 1]],
+                        jobURL: jobsArray.URLarray[displayedJobsArray[centralItemIndex - 1]],
+                    };
                 });
             }
         });
-}
+    }
 }
 
 function attachModalEvent() {
@@ -248,6 +269,17 @@ function showModal() {
     const modal = document.getElementById('SavedJobModal');
     modal.classList.remove('hidden');
     modal.setAttribute('aria-hidden', 'false');
+
+    // Populate the modal with the current job data
+    const modalJobTitle = document.getElementById('modal-job-title');
+    const modalJobCompany = document.getElementById('modal-job-company');
+    const modalJobLink = document.getElementById('modal-job-link');
+
+    if (currentJobData) {
+        modalJobTitle.textContent = currentJobData.jobTitle;
+        modalJobCompany.textContent = currentJobData.company;
+        modalJobLink.href = currentJobData.jobURL;
+    }
 }
 
 // Hide looking glass and show input form

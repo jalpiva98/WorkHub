@@ -72,15 +72,19 @@ border-radius:15px; ;
 }
 
 .gallery-item-3 {
-    box-shadow: -2px 5px 33px 6px rgba(0, 0, 0, 0.35);
+    @apply box-shadow-lg; 
     height: 300px;
     opacity: 1;
     left: 50%;
-    transform: translateX(-50%);
+    top: 50%;
+    transform: translate(-50%, -50%);
     width: 430px;
     z-index: 2;
 }
 
+#job-display-3 {
+    @apply text-center p-4;
+}
 .gallery-item-4{
     left: 70%;
     transform: translateX(-50%);
