@@ -30,6 +30,7 @@ const inputFunc = () => {
 
 inputFunc();
 
+
 const saveJobFunc = () => {
     for (let i = 0; i < 150; i++) {
         // Add any additional functionality here if needed
@@ -187,7 +188,6 @@ function updateGallery() {
 
 class Carousel {
     constructor(container, items, controls) {
-        this.carouselContainer = container;
         this.carouselControls = controls;
         this.carouselArray = [...items];
     }
@@ -248,7 +248,7 @@ class Carousel {
                     // Update currentJobData with the new central item's data
                     const centralItemIndex = parseInt(centralItem.dataset.index, 10);
                     currentJobData = {
-                        jobIndex: displayedJobsArray[centralItemIndex - 1],
+                        jobIndex: displayedJobsArray[centralItemIndex],
                         company: jobsArray.companyArray[displayedJobsArray[centralItemIndex - 1]],
                         jobTitle: jobsArray.jobArray[displayedJobsArray[centralItemIndex - 1]],
                         jobURL: jobsArray.URLarray[displayedJobsArray[centralItemIndex - 1]],
@@ -312,5 +312,6 @@ const exampleCarousel = new Carousel(galleryContainer, galleryItems, galleryCont
 
 // Llamar a updateGallery() para mostrar los trabajos guardados inmediatamente
 updateGallery();
+
 exampleCarousel.setControls();
 exampleCarousel.useControls();
