@@ -6,14 +6,15 @@ const galleryItems = document.querySelectorAll('.gallery-item');
 const savedJobIndexes = [];
 let currentJobData = null; // Variable to store the data of the currently displayed job
 let displayedJobsArray = [];
+
 //Inputs ID for search
 const jobsArray = {
     companyArray: [],
     jobArray: [],
     URLarray: [],
 };
-const inputFunc = () => {
 
+const inputFunc = () => {
     $('#searchInputs').click(function () {
         const position = $('#positionInputID').val();
         const skills = $('#skillInputID').val();
@@ -25,17 +26,19 @@ const inputFunc = () => {
 
         fetchJobSearch(position, skills, city); // Pass the input values to the function
     });
-
 };
+
 inputFunc();
+
+
 const saveJobFunc = () => {
     for (let i = 0; i < 150; i++) {
         // Add any additional functionality here if needed
         updateDisplayedJobsArray();
     }
 };
-async function fetchJobSearch(position, skills, city) {
 
+async function fetchJobSearch(position, skills, city) {
     const url =
         'https://jobsearch4.p.rapidapi.com/api/v2/Jobs/Search?SearchQuery=' +
         position +
@@ -113,15 +116,14 @@ async function fetchJobSearch(position, skills, city) {
                 updateDisplayedJobsArray();
                 updateGallery();
             });
-
         }
         updateGallery();
     } catch (error) {
         console.error('error');
     }
 }
-function updateDisplayedJobsArray() {
 
+function updateDisplayedJobsArray() {
     displayedJobsArray = [];
 
     // Get the central job index (gallery-item-3)
@@ -143,10 +145,9 @@ function updateDisplayedJobsArray() {
         displayedJobsArray.push(savedJobIndexes[currentIndex]);
         currentIndex++;
     }
-
 }
-function updateGallery() {
 
+function updateGallery() {
     const galleryItems = document.querySelectorAll('.gallery-item');
 
     for (let i = 1; i <= galleryItems.length; i++) {
@@ -183,10 +184,9 @@ function updateGallery() {
 
     // Attach the modal event to the central item after updating the gallery
     attachModalEvent();
-
 }
-class Carousel {
 
+class Carousel {
     constructor(container, items, controls) {
         this.carouselControls = controls;
         this.carouselArray = [...items];
@@ -204,7 +204,7 @@ class Carousel {
             el.classList.add(`gallery-item-${i + 1}`);
         });
     }
-
+    
     setCurrentState(direction) {
         if (direction === 'previous') {
             this.carouselArray.unshift(this.carouselArray.pop());
@@ -213,17 +213,6 @@ class Carousel {
         }
         this.updateGallery(); // Update the carousel classes
     }
- 
-  setControls() {
-    this.carouselControls.forEach((control) => {
-      galleryControlsContainer.appendChild(
-        document.createElement("button")
-      ).className = `gallery-controls-${control}`;
-      document.querySelector(`.gallery-controls-${control}`).innerText =
-        control;
-    });
-  }
-
 
     setControls() {
         this.carouselControls.forEach(control => {
@@ -232,11 +221,10 @@ class Carousel {
         });
     }
 
-
     useControls() {
         let previousCentralItem = this.carouselArray[2];
         const triggers = [...galleryControlsContainer.childNodes];
-
+    
         triggers.forEach(control => {
             // Verificar si el control es un botón antes de agregar el evento de clic
             if (control.tagName === 'BUTTON') {
@@ -246,17 +234,17 @@ class Carousel {
                     e.preventDefault();
                     console.log(displayedJobsArray);
                     this.setCurrentState(controlName);
-
+    
                     // Remove event listener and class from previous central item
                     previousCentralItem.classList.remove("cursor-pointer");
                     previousCentralItem.removeEventListener('click', showModal);
                     previousCentralItem = this.carouselArray[2];
-
+    
                     // Add event listener to the new central item
                     const centralItem = this.carouselArray[2];
                     centralItem.classList.add("cursor-pointer");
                     centralItem.addEventListener('click', showModal);
-
+    
                     // Update currentJobData with the new central item's data
                     const centralItemIndex = parseInt(centralItem.dataset.index, 10);
                     currentJobData = {
@@ -270,13 +258,14 @@ class Carousel {
         });
     }
 }
+
 function attachModalEvent() {
     const centralItem = document.querySelector('.gallery-item-3');
     centralItem.classList.add("cursor-pointer");
     centralItem.addEventListener('click', showModal);
 }
-function showModal() {
 
+function showModal() {
     const modal = document.getElementById('SavedJobModal');
     modal.classList.remove('hidden');
     modal.setAttribute('aria-hidden', 'false');
@@ -291,10 +280,9 @@ function showModal() {
         modalJobCompany.textContent = currentJobData.company;
         modalJobLink.href = currentJobData.jobURL;
     }
-
 }
-// Hide looking glass and show input form
 
+// Hide looking glass and show input form
 document.getElementById('looking-glass').addEventListener('click', toggleInputs);
 
 function toggleInputs() {
@@ -304,6 +292,7 @@ function toggleInputs() {
     searchInputs.classList.remove('hidden');
     searchImgDiv.classList.add('hidden');
 }
+
 // Function to hide the modal
 function hideModal() {
     const modal = document.getElementById('SavedJobModal');
@@ -323,4 +312,64 @@ const exampleCarousel = new Carousel(galleryContainer, galleryItems, galleryCont
 
 // Llamar a updateGallery() para mostrar los trabajos guardados inmediatamente
 updateGallery();
+
+exampleCarousel.setControls();
 exampleCarousel.useControls();
+
+document.addEventListener("DOMContentLoaded", function () {
+    // Get references to the input fields and the search button
+    const positionInput = document.getElementById("positionInputID");
+    const skillInput = document.getElementById("skillInputID");
+    const locationInput = document.getElementById("locationInputID");
+    const searchButton = document.querySelector(".custom-button");
+  
+    // Get references to the boxes
+    const boxes = document.querySelectorAll(".box > div");
+  
+    // Function to update the boxes with the search inputs
+    function updateBoxes() {
+      const position = positionInput.value.trim();
+      const skill = skillInput.value.trim();
+      const location = locationInput.value.trim();
+  
+      if (position || skill || location) {
+        // Create the formatted search string as a list
+        let searchString = "<ul>";
+        if (position) {
+          searchString += `<li>Position: ${position}</li>`;
+        }
+        if (skill) {
+          searchString += `<li>Skills: ${skill}</li>`;
+        }
+        if (location) {
+          searchString += `<li>Location: ${location}</li>`;
+        }
+        searchString += "</ul>";
+  
+        // Shift the content of the boxes to the right (box4 -> box3, box3 -> box2, box2 -> box1)
+        for (let i = boxes.length - 1; i > 0; i--) {
+          boxes[i].innerHTML = boxes[i - 1].innerHTML;
+        }
+  
+        // Set the content of box1 with the new search string as a list
+        boxes[0].innerHTML = searchString;
+  
+        // Save the search string in local storage
+        localStorage.setItem("box1Content", boxes[0].innerHTML);
+        localStorage.setItem("box2Content", boxes[1].innerHTML);
+        localStorage.setItem("box3Content", boxes[2].innerHTML);
+        localStorage.setItem("box4Content", boxes[3].innerHTML);
+      }
+    }
+  
+    // Add click event listener to the search button
+    searchButton.addEventListener("click", updateBoxes);
+  
+    // Retrieve and set the content of the boxes from local storage on page load
+    for (let i = 0; i < boxes.length; i++) {
+      const boxContent = localStorage.getItem(`box${i + 1}Content`);
+      if (boxContent) {
+        boxes[i].innerHTML = boxContent;
+      }
+    }
+  });
