@@ -161,7 +161,7 @@ border-radius:15px; ;
     right: -30px;
     top: 45%;
     transform: rotate(-45deg) translateY(-50%);
-    transition: right 0.15s ease-in-out;
+    transition: right .5s ease-in-out;
     width: 5px;
 }
 
@@ -258,5 +258,8 @@ border-radius:15px; ;
     transform: scale(0.95);
     transition: transform 0.2s;
   }
+  .box > div {
+    color: black;
+}
 
   

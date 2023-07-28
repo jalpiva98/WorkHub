@@ -6,15 +6,14 @@ const galleryItems = document.querySelectorAll('.gallery-item');
 const savedJobIndexes = [];
 let currentJobData = null; // Variable to store the data of the currently displayed job
 let displayedJobsArray = [];
-
 //Inputs ID for search
 const jobsArray = {
     companyArray: [],
     jobArray: [],
     URLarray: [],
 };
-
 const inputFunc = () => {
+
     $('#searchInputs').click(function () {
         const position = $('#positionInputID').val();
         const skills = $('#skillInputID').val();
@@ -26,18 +25,17 @@ const inputFunc = () => {
 
         fetchJobSearch(position, skills, city); // Pass the input values to the function
     });
+
 };
-
 inputFunc();
-
 const saveJobFunc = () => {
     for (let i = 0; i < 150; i++) {
         // Add any additional functionality here if needed
         updateDisplayedJobsArray();
     }
 };
-
 async function fetchJobSearch(position, skills, city) {
+
     const url =
         'https://jobsearch4.p.rapidapi.com/api/v2/Jobs/Search?SearchQuery=' +
         position +
@@ -115,14 +113,15 @@ async function fetchJobSearch(position, skills, city) {
                 updateDisplayedJobsArray();
                 updateGallery();
             });
+
         }
         updateGallery();
     } catch (error) {
         console.error('error');
     }
 }
-
 function updateDisplayedJobsArray() {
+
     displayedJobsArray = [];
 
     // Get the central job index (gallery-item-3)
@@ -144,9 +143,10 @@ function updateDisplayedJobsArray() {
         displayedJobsArray.push(savedJobIndexes[currentIndex]);
         currentIndex++;
     }
-}
 
+}
 function updateGallery() {
+
     const galleryItems = document.querySelectorAll('.gallery-item');
 
     for (let i = 1; i <= galleryItems.length; i++) {
@@ -183,11 +183,11 @@ function updateGallery() {
 
     // Attach the modal event to the central item after updating the gallery
     attachModalEvent();
-}
 
+}
 class Carousel {
+
     constructor(container, items, controls) {
-        this.carouselContainer = container;
         this.carouselControls = controls;
         this.carouselArray = [...items];
     }
@@ -204,7 +204,7 @@ class Carousel {
             el.classList.add(`gallery-item-${i + 1}`);
         });
     }
-    
+
     setCurrentState(direction) {
         if (direction === 'previous') {
             this.carouselArray.unshift(this.carouselArray.pop());
@@ -213,6 +213,17 @@ class Carousel {
         }
         this.updateGallery(); // Update the carousel classes
     }
+ 
+  setControls() {
+    this.carouselControls.forEach((control) => {
+      galleryControlsContainer.appendChild(
+        document.createElement("button")
+      ).className = `gallery-controls-${control}`;
+      document.querySelector(`.gallery-controls-${control}`).innerText =
+        control;
+    });
+  }
+
 
     setControls() {
         this.carouselControls.forEach(control => {
@@ -221,10 +232,11 @@ class Carousel {
         });
     }
 
+
     useControls() {
         let previousCentralItem = this.carouselArray[2];
         const triggers = [...galleryControlsContainer.childNodes];
-    
+
         triggers.forEach(control => {
             // Verificar si el control es un botón antes de agregar el evento de clic
             if (control.tagName === 'BUTTON') {
@@ -234,21 +246,21 @@ class Carousel {
                     e.preventDefault();
                     console.log(displayedJobsArray);
                     this.setCurrentState(controlName);
-    
+
                     // Remove event listener and class from previous central item
                     previousCentralItem.classList.remove("cursor-pointer");
                     previousCentralItem.removeEventListener('click', showModal);
                     previousCentralItem = this.carouselArray[2];
-    
+
                     // Add event listener to the new central item
                     const centralItem = this.carouselArray[2];
                     centralItem.classList.add("cursor-pointer");
                     centralItem.addEventListener('click', showModal);
-    
+
                     // Update currentJobData with the new central item's data
                     const centralItemIndex = parseInt(centralItem.dataset.index, 10);
                     currentJobData = {
-                        jobIndex: displayedJobsArray[centralItemIndex - 1],
+                        jobIndex: displayedJobsArray[centralItemIndex],
                         company: jobsArray.companyArray[displayedJobsArray[centralItemIndex - 1]],
                         jobTitle: jobsArray.jobArray[displayedJobsArray[centralItemIndex - 1]],
                         jobURL: jobsArray.URLarray[displayedJobsArray[centralItemIndex - 1]],
@@ -258,14 +270,13 @@ class Carousel {
         });
     }
 }
-
 function attachModalEvent() {
     const centralItem = document.querySelector('.gallery-item-3');
     centralItem.classList.add("cursor-pointer");
     centralItem.addEventListener('click', showModal);
 }
-
 function showModal() {
+
     const modal = document.getElementById('SavedJobModal');
     modal.classList.remove('hidden');
     modal.setAttribute('aria-hidden', 'false');
@@ -280,9 +291,10 @@ function showModal() {
         modalJobCompany.textContent = currentJobData.company;
         modalJobLink.href = currentJobData.jobURL;
     }
-}
 
+}
 // Hide looking glass and show input form
+
 document.getElementById('looking-glass').addEventListener('click', toggleInputs);
 
 function toggleInputs() {
@@ -292,7 +304,6 @@ function toggleInputs() {
     searchInputs.classList.remove('hidden');
     searchImgDiv.classList.add('hidden');
 }
-
 // Function to hide the modal
 function hideModal() {
     const modal = document.getElementById('SavedJobModal');
@@ -312,5 +323,4 @@ const exampleCarousel = new Carousel(galleryContainer, galleryItems, galleryCont
 
 // Llamar a updateGallery() para mostrar los trabajos guardados inmediatamente
 updateGallery();
-exampleCarousel.setControls();
 exampleCarousel.useControls();
