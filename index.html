@@ -31,7 +31,7 @@
 
 <section class="bg-white-500 min-h-[50vh] flex flex-col items-center justify-center m-0" >
     <!-- INPUTS -->
-    <div id="searchInputs" class="p-1 rounded-md flex  items-center glass-container mt-6" >
+    <div id="searchInputs" class="p-1 rounded-md flex  items-center glass-container mt-6 hidden" >
 
         <input id="positionInputID" type="text" class="m-6 input-field   font-bold text-blue-900 rounded-full placeholder:text-gray-500 pl-[20px] outline-none previus bg-white focus:outline-orange-500" placeholder="Position">
 
@@ -83,15 +83,23 @@
 
   <div class="gallery max-h-[50vh] pb-96 mb-40 mpt">
       <div id="SavedContainerID" class="gallery-container text-white text-xl grid grid-cols-5 gap-24 flex justify-end items-center ">
-        
-        <div class="gallery-item gallery-item-1 flex justify-center items-center bg-orange-500"  data-index="1"> <div id="job-display-1" class="flex items-center justify-center h-full placeholder-message"> PLACEHOLDER TEXT 1 </div> </div>
 
-        <div class="gallery-item gallery-item-2 flex justify-center items-center bg-orange-500"  data-index="2"> <div id="job-display-2" class="flex items-center justify-center h-full placeholder-message"> PLACEHOLDER TEXT 2</div> </div>
+       <div class="gallery-item gallery-item-1 flex justify-center items-center bg-orange-500 "  data-index="1"> <div id="job-display-1" class="flex items-center justify-center h-full placeholder-message"> </div> </div>
+       <div class="gallery-item gallery-item-2 flex justify-center items-center bg-orange-500 "  data-index="2"> <div id="job-display-2" class="flex items-center justify-center h-full placeholder-message"> </div> </div>
+       <div  id="central-item job-display-3"  class="gallery-item gallery-item-3 flex justify-center items-center bg-orange-500  cursor-pointer " data-index="3">  <div id="job-display-3" class="flex items-center justify-center h-full placeholder-message"> </div> </div>
+       <div class="gallery-item gallery-item-4 flex justify-center items-center bg-orange-500 "  data-index="4"> <div id="job-display-4" class="flex items-center justify-center h-full placeholder-message"> </div>  </div>
+       <div class="gallery-item gallery-item-5 flex justify-center items-center bg-orange-500 "  data-index="5"> <div id="job-display-5" class="flex items-center justify-center h-full placeholder-message"> </div>  </div>
+       <div class="gallery-item gallery-item-1 flex justify-center items-center bg-orange-500 "  data-index="4"> <div id="job-display-6" class="flex items-center justify-center h-full placeholder-message"> </div>  </div>
+       <div class="gallery-item gallery-item-2 flex justify-center items-center bg-orange-500 "  data-index="5"> <div id="job-display-7" class="flex items-center justify-center h-full placeholder-message"> </div>  </div>
+       <div class="central-item gallery-item gallery-item-3 flex justify-center items-center bg-orange-500 "  data-index="4"> <div id="job-display-8" class="flex items-center justify-center h-full placeholder-message"> </div>  </div>
+       <div class="gallery-item gallery-item-4 flex justify-center items-center bg-orange-500 "  data-index="5"> <div id="job-display-9" class="flex items-center justify-center h-full placeholder-message"> </div>  </div>
+       <div class="gallery-item gallery-item-5 flex justify-center items-center bg-orange-500 "  data-index="4"> <div id="job-display-10" class="flex items-center justify-center h-full placeholder-message"> </div>  </div>
+       <div class="gallery-item gallery-item-1 flex justify-center items-center bg-orange-500 "  data-index="5"> <div id="job-display-11" class="flex items-center justify-center h-full placeholder-message"> </div>  </div>
+       <div class="gallery-item gallery-item-2 flex justify-center items-center bg-orange-500 "  data-index="4"> <div id="job-display-12" class="flex items-center justify-center h-full placeholder-message"> </div>  </div>
+       <div class="central-item gallery-item gallery-item-3 flex justify-center items-center bg-orange-500 "  data-index="4"> <div id="job-display-13" class="flex items-center justify-center h-full placeholder-message">   </div>  </div>
+       <div class="gallery-item gallery-item-4 flex justify-center items-center bg-orange-500 "  data-index="5"> <div id="job-display-14" class="flex items-center justify-center h-full placeholder-message"> </div>  </div>
+       <div class="gallery-item gallery-item-5 flex justify-center items-center bg-orange-500 "  data-index="4"> <div id="job-display-15" class="flex items-center justify-center h-full placeholder-message"> </div>  </div>
 
-        <div  id="central-item job-display-3"  class="gallery-item gallery-item-3 flex justify-center items-center bg-orange-500  cursor-pointer" data-index="3">  <div id="job-display-3" class="flex items-center justify-center h-full placeholder-message"> PLACEHOLDER TEXT 3</div> </div>
-
-        <div class="gallery-item gallery-item-4 flex justify-center items-center bg-orange-500"  data-index="4"> <div id="job-display-4" class="flex items-center justify-center h-full placeholder-message"> PLACEHOLDER TEXT 4</div>  </div>
-        <div class="gallery-item gallery-item-5 flex justify-center items-center bg-orange-500"  data-index="5"> <div id="job-display-5" class="flex items-center justify-center h-full placeholder-message"> PLACEHOLDER TEXT 5</div>  </div>
       </div>
       <div class="gallery-controls ">
       </div>
