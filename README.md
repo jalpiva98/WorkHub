@@ -14,3 +14,6 @@ There's a  check box to save your favorite options.
 Next, a section where the last seaches will be displayed.
 
 Also a carousel where your favorite jobs will appear. 
+https://jalpiva98.github.io/WorkHub/
+<img width="1379" alt="Screen Shot 2023-07-27 at 9 16 30 PM" src="https://github.com/jalpiva98/WorkHub/assets/115953862/3e273de3-a973-42e3-ac63-2254d04a5c20">
+
