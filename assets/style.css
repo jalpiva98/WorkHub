@@ -217,7 +217,7 @@ border-radius:15px; ;
 
 
 .placeholder-message {
-    display: flex;
+
     align-items: center; /* Centrar verticalmente */
     justify-content: center; /* Centrar horizontalmente */
     height: 100%;
