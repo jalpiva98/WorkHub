@@ -18,17 +18,17 @@ SO THAT WorkHub💼 can provide me with a comprehensive list of job listings tha
 
 ## How to use it
 
-After clicking the loope, the inputs will be displayed to make a search by job title, skills or/and locations.
+- After clicking the loope, the inputs will be displayed to make a search by job title, skills or/and locations.
 
-Make sure to have at least one input, otherwise a "no result found" message will be there.
+- Make sure to have at least one input, otherwise a "no result found" message will be there.
 
-When you have at least one input and click in the "Search Jobs" button, a list of options will be displayed below.
+- When you have at least one input and click in the "Search Jobs" button, a list of options will be displayed below.
 
-There's a  check box to save your favorite options. 
+- There's a  check box to save your favorite options. 
 
-Next, a section where the last seaches will be displayed.
+- Next, a section where the last seaches will be displayed.
 
-Also a carousel where your favorite jobs will appear. 
+- Also a carousel where your favorite jobs will appear. 
 https://jalpiva98.github.io/WorkHub/
 
 ## Mock-Up
