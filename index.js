@@ -15,7 +15,7 @@ const jobsArray = {
 };
 
 const inputFunc = () => {
-    $('#searchInputs').click(function () {
+    document.getElementById('searchButton').addEventListener('click', () => {
         const position = $('#positionInputID').val();
         const skills = $('#skillInputID').val();
         const city = $('#locationInputID').val();
@@ -39,6 +39,16 @@ const saveJobFunc = () => {
 };
 
 async function fetchJobSearch(position, skills, city) {
+    const hasAtLeastOneInput = position || skills || city;
+
+    if (!hasAtLeastOneInput) {
+        const resultsList = $('#resultsID');
+        resultsList.empty();
+
+        const noResultsMessage = $('<li class="flex items-center justify-center h-full bg-orange-500 rounded-lg shadow-md text-white">').html('<span style="font-size: 3em;"><strong>No results found</strong> 😢</span>');
+        resultsList.append(noResultsMessage);
+        return;
+    }
     const url =
         'https://jobsearch4.p.rapidapi.com/api/v2/Jobs/Search?SearchQuery=' +
         position +
@@ -63,6 +73,12 @@ async function fetchJobSearch(position, skills, city) {
 
         const resultsList = $('#resultsID');
         resultsList.empty();
+
+        if (result.data.length === 0) {
+            const noResultsMessage = $('<li class="flex items-center justify-center h-full bg-orange-500 rounded-lg shadow-md text-white">').html('<span style="font-size: 3em;"><strong>No results found</strong> 😢</span>');
+            resultsList.append(noResultsMessage);
+            return;
+        }
 
         for (let i = 0; i < 150; i++) {
             let company = result.data[i].company;
@@ -204,7 +220,7 @@ class Carousel {
             el.classList.add(`gallery-item-${i + 1}`);
         });
     }
-    
+
     setCurrentState(direction) {
         if (direction === 'previous') {
             this.carouselArray.unshift(this.carouselArray.pop());
@@ -224,7 +240,7 @@ class Carousel {
     useControls() {
         let previousCentralItem = this.carouselArray[2];
         const triggers = [...galleryControlsContainer.childNodes];
-    
+
         triggers.forEach(control => {
             // Verificar si el control es un botón antes de agregar el evento de clic
             if (control.tagName === 'BUTTON') {
@@ -234,17 +250,17 @@ class Carousel {
                     e.preventDefault();
                     console.log(displayedJobsArray);
                     this.setCurrentState(controlName);
-    
+
                     // Remove event listener and class from previous central item
                     previousCentralItem.classList.remove("cursor-pointer");
                     previousCentralItem.removeEventListener('click', showModal);
                     previousCentralItem = this.carouselArray[2];
-    
+
                     // Add event listener to the new central item
                     const centralItem = this.carouselArray[2];
                     centralItem.classList.add("cursor-pointer");
                     centralItem.addEventListener('click', showModal);
-    
+
                     // Update currentJobData with the new central item's data
                     const centralItemIndex = parseInt(centralItem.dataset.index, 10);
                     currentJobData = {
@@ -322,54 +338,54 @@ document.addEventListener("DOMContentLoaded", function () {
     const skillInput = document.getElementById("skillInputID");
     const locationInput = document.getElementById("locationInputID");
     const searchButton = document.querySelector(".custom-button");
-  
+
     // Get references to the boxes
     const boxes = document.querySelectorAll(".box > div");
-  
+
     // Function to update the boxes with the search inputs
     function updateBoxes() {
-      const position = positionInput.value.trim();
-      const skill = skillInput.value.trim();
-      const location = locationInput.value.trim();
-  
-      if (position || skill || location) {
-        // Create the formatted search string as a list
-        let searchString = "<ul>";
-        if (position) {
-          searchString += `<li>Position: ${position}</li>`;
+        const position = positionInput.value.trim();
+        const skill = skillInput.value.trim();
+        const location = locationInput.value.trim();
+
+        if (position || skill || location) {
+            // Create the formatted search string as a list
+            let searchString = "<ul>";
+            if (position) {
+                searchString += `<li>Position: ${position}</li>`;
+            }
+            if (skill) {
+                searchString += `<li>Skills: ${skill}</li>`;
+            }
+            if (location) {
+                searchString += `<li>Location: ${location}</li>`;
+            }
+            searchString += "</ul>";
+
+            // Shift the content of the boxes to the right (box4 -> box3, box3 -> box2, box2 -> box1)
+            for (let i = boxes.length - 1; i > 0; i--) {
+                boxes[i].innerHTML = boxes[i - 1].innerHTML;
+            }
+
+            // Set the content of box1 with the new search string as a list
+            boxes[0].innerHTML = searchString;
+
+            // Save the search string in local storage
+            localStorage.setItem("box1Content", boxes[0].innerHTML);
+            localStorage.setItem("box2Content", boxes[1].innerHTML);
+            localStorage.setItem("box3Content", boxes[2].innerHTML);
+            localStorage.setItem("box4Content", boxes[3].innerHTML);
         }
-        if (skill) {
-          searchString += `<li>Skills: ${skill}</li>`;
-        }
-        if (location) {
-          searchString += `<li>Location: ${location}</li>`;
-        }
-        searchString += "</ul>";
-  
-        // Shift the content of the boxes to the right (box4 -> box3, box3 -> box2, box2 -> box1)
-        for (let i = boxes.length - 1; i > 0; i--) {
-          boxes[i].innerHTML = boxes[i - 1].innerHTML;
-        }
-  
-        // Set the content of box1 with the new search string as a list
-        boxes[0].innerHTML = searchString;
-  
-        // Save the search string in local storage
-        localStorage.setItem("box1Content", boxes[0].innerHTML);
-        localStorage.setItem("box2Content", boxes[1].innerHTML);
-        localStorage.setItem("box3Content", boxes[2].innerHTML);
-        localStorage.setItem("box4Content", boxes[3].innerHTML);
-      }
     }
-  
+
     // Add click event listener to the search button
     searchButton.addEventListener("click", updateBoxes);
-  
+
     // Retrieve and set the content of the boxes from local storage on page load
     for (let i = 0; i < boxes.length; i++) {
-      const boxContent = localStorage.getItem(`box${i + 1}Content`);
-      if (boxContent) {
-        boxes[i].innerHTML = boxContent;
-      }
+        const boxContent = localStorage.getItem(`box${i + 1}Content`);
+        if (boxContent) {
+            boxes[i].innerHTML = boxContent;
+        }
     }
-  });
+});
