@@ -17,7 +17,7 @@
 <body class="background">
 <!-- Nav Bar -->
 <div id="navbar" class="headerClass left-0 w-full h-16  px-8 flex items-center justify-between m-0 glass-container" >
-    <div class="text-orange-500 text-3xl font-bold">WorkHub</div>
+    <div class="text-orange-500 text-3xl font-bold">WorkHub 💼</div>
 
     <nav class="space-x-4">
         <a href="#contact-us" class="text-white">Contact us</a>
@@ -27,20 +27,17 @@
     </nav>
 </div>
 
-
-
-<section class="bg-white-500 min-h-[50vh] flex flex-col items-center justify-center m-0" >
-    <!-- INPUTS -->
-    <div id="searchInputs" class="p-1 rounded-md flex  items-center glass-container mt-6 hidden" >
-
-        <input id="positionInputID" type="text" class="m-6 input-field   font-bold text-blue-900 rounded-full placeholder:text-gray-500 pl-[20px] outline-none previus bg-white focus:outline-orange-500" placeholder="Position">
-
-        <input id="skillInputID" type="text" class="m-6 input-field   font-bold text-blue-900 rounded-full placeholder:text-gray-500 pl-[20px] outline-none previus bg-white focus:outline-orange-500" placeholder="Skills">
-        <input id="locationInputID" type="text" class="m-6 input-field   font-bold text-blue-900 rounded-full placeholder:text-gray-500 pl-[20px] outline-none previus bg-white focus:outline-orange-500" placeholder="Location">
-        <button type="submit" class="m-6 mt-4 buttonSearch text-white px-6 py-3 rounded font-bold rounded-full custom-button">Search Jobs</button>
-    </div>
-    <!-- Looking-glass section -->
-    <div id="looking-glass" class="bg-white-500 min-h-[50vh] flex flex-col items-center justify-center m-0 ">
+      
+      <section class="bg-white-500 min-h-[50vh] flex flex-col items-center justify-center m-0">
+        <!-- INPUTS -->
+     <div id="searchInputs" class="p-1 bg-blue-800 rounded-md flex  items-center hidden">
+         <input id="positionInputID" type="text" class="m-6 input-field border-2 border-orange-500 font-bold text-blue-900" placeholder="Position">
+         <input id="skillInputID" type="text" class="m-6 input-field border-2 border-orange-500 font-bold text-blue-900" placeholder="Skills">
+         <input id="locationInputID" type="text" class="m-6 input-field border-2 border-orange-500 font-bold text-blue-900" placeholder="Location">
+         <button id="searchButton" type="submit" class="m-6 mt-4 bg-blue-500 text-white px-6 py-3 rounded font-bold">Search Jobs</button>     </div>
+        </div>
+<!-- Looking-glass section -->
+      <div id="looking-glass" class="bg-white-500 min-h-[50vh] flex flex-col items-center justify-center m-0">
         <div class="text-center cursor-pointer">
             <img id="searchImgID" src="https://static.vecteezy.com/system/resources/previews/015/337/677/non_2x/transparent-search-icon-free-png.png" width="200px" height="200px" alt="search icon">
         </div>
